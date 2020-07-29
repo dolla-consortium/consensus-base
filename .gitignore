@@ -1,6 +1,5 @@
 dist
 dist-*
-*.cabal
 cabal-dev
 *.o
 *.hi
@@ -19,7 +18,7 @@ cabal.sandbox.config
 *.eventlog
 .dir-locals.el
 .bash_history
-.stack-work*/
+.stack-work/*
 .cache
 .local
 .stack
