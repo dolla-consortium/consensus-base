@@ -10,7 +10,7 @@ cabal-dev
 .hpc
 .hsenv
 .cabal-sandbox/
-.packcheck/
+.packcheck/*
 cabal.sandbox.config
 *.prof
 *.aux
