@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DerivingVia, DeriveGeneric, FlexibleContexts,
+  UndecidableInstances, StandaloneDeriving #-}</span><span>
+</span><span id="line-3"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Dolla.Consensus.Voting.Vote</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Dolla.Consensus.Voting.Vote.html#Vote"><span class="hs-identifier">Vote</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-4"></span><span>
+</span><span id="line-5"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Aeson</span></span><span>
+</span><span id="line-6"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">GHC.Generics</span></span><span>
+</span><span id="line-7"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Adapter.Aeson.AesonVia</span></span><span>
+</span><span id="line-8"></span><span>
+</span><span id="line-9"></span><span id="local-6989586621679410016"><span id="local-6989586621679410017"></span></span><span class="hs-keyword">data</span><span> </span><span id="Vote"><span class="annot"><a href="Dolla.Consensus.Voting.Vote.html#Vote"><span class="hs-identifier hs-var">Vote</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>  </span><span id="Accept"><span class="annot"><a href="Dolla.Consensus.Voting.Vote.html#Accept"><span class="hs-identifier hs-var">Accept</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Reject"><span class="annot"><a href="Dolla.Consensus.Voting.Vote.html#Reject"><span class="hs-identifier hs-var">Reject</span></a></span></span><span>
+</span><span id="line-10"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679410010"><span id="local-6989586621679410012"><span class="annot"><span class="annottext">Vote -&gt; Vote -&gt; Bool
+(Vote -&gt; Vote -&gt; Bool) -&gt; (Vote -&gt; Vote -&gt; Bool) -&gt; Eq Vote
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+/= :: Vote -&gt; Vote -&gt; Bool
+$c/= :: Vote -&gt; Vote -&gt; Bool
+== :: Vote -&gt; Vote -&gt; Bool
+$c== :: Vote -&gt; Vote -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679410003"><span id="local-6989586621679410005"><span id="local-6989586621679410007"><span class="annot"><span class="annottext">Int -&gt; Vote -&gt; ShowS
+[Vote] -&gt; ShowS
+Vote -&gt; String
+(Int -&gt; Vote -&gt; ShowS)
+-&gt; (Vote -&gt; String) -&gt; ([Vote] -&gt; ShowS) -&gt; Show Vote
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [Vote] -&gt; ShowS
+$cshowList :: [Vote] -&gt; ShowS
+show :: Vote -&gt; String
+$cshow :: Vote -&gt; String
+showsPrec :: Int -&gt; Vote -&gt; ShowS
+$cshowsPrec :: Int -&gt; Vote -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">(forall x. Vote -&gt; Rep Vote x)
+-&gt; (forall x. Rep Vote x -&gt; Vote) -&gt; Generic Vote
+forall x. Rep Vote x -&gt; Vote
+forall x. Vote -&gt; Rep Vote x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cto :: forall x. Rep Vote x -&gt; Vote
+$cfrom :: forall x. Vote -&gt; Rep Vote x
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">Generic</span></span><span class="hs-special">)</span><span>
+</span><span id="line-11"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679409991"><span id="local-6989586621679409993"><span id="local-6989586621679409995"><span id="local-6989586621679409997"><span class="annot"><span class="annottext">[Vote] -&gt; Encoding
+[Vote] -&gt; Value
+Vote -&gt; Encoding
+Vote -&gt; Value
+(Vote -&gt; Value)
+-&gt; (Vote -&gt; Encoding)
+-&gt; ([Vote] -&gt; Value)
+-&gt; ([Vote] -&gt; Encoding)
+-&gt; ToJSON Vote
+forall a.
+(a -&gt; Value)
+-&gt; (a -&gt; Encoding)
+-&gt; ([a] -&gt; Value)
+-&gt; ([a] -&gt; Encoding)
+-&gt; ToJSON a
+toEncodingList :: [Vote] -&gt; Encoding
+$ctoEncodingList :: [Vote] -&gt; Encoding
+toJSONList :: [Vote] -&gt; Value
+$ctoJSONList :: [Vote] -&gt; Value
+toEncoding :: Vote -&gt; Encoding
+$ctoEncoding :: Vote -&gt; Encoding
+toJSON :: Vote -&gt; Value
+$ctoJSON :: Vote -&gt; Value
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">ToJSON</span></span></span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679409986"><span id="local-6989586621679409988"><span class="annot"><span class="annottext">Value -&gt; Parser [Vote]
+Value -&gt; Parser Vote
+(Value -&gt; Parser Vote) -&gt; (Value -&gt; Parser [Vote]) -&gt; FromJSON Vote
+forall a.
+(Value -&gt; Parser a) -&gt; (Value -&gt; Parser [a]) -&gt; FromJSON a
+parseJSONList :: Value -&gt; Parser [Vote]
+$cparseJSONList :: Value -&gt; Parser [Vote]
+parseJSON :: Value -&gt; Parser Vote
+$cparseJSON :: Value -&gt; Parser Vote
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">FromJSON</span></span></span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">via</span><span> </span><span class="annot"><span class="hs-identifier hs-type">DefaultJSON</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Dolla.Consensus.Voting.Vote.html#Vote"><span class="hs-identifier hs-type">Vote</span></a></span><span class="hs-special">)</span></pre></body></html>

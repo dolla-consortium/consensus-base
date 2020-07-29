@@ -1,0 +1,15 @@
+# When changing the resolver, also update the docker image in `.gitlab-ci.yml` accordingly!
+resolver: lts-16.2
+packages:
+  - .
+
+extra-deps:
+
+  - github: dolla-consortium/base
+    commit: 0af3d00168b9407dc98f4d01c2cc203b5e853335
+
+  - streamly-fsnotify-1.1.1.0@sha256:f46070f8ccf57fa85dab594c0a43b6f46a5db0d5c935e87d3e01bc70cebd3eef,1072
+  - byline-0.3.2.1@sha256:7429f0aaa9efe2c7110c5882aca1310aaa11f1f552313e9a34188782228779ae,3637
+  - either-5.0.1@sha256:ec9b644f35d38482cecc1eccbf711c2fc38422812140498203d89dc39a80a920,1909
+  - terminfo-hs-0.2.1.1@sha256:c193c5333a18ad030c146c2282dd3828e670af344fbfdbcb681dbf6abd99ca1c,1629
+

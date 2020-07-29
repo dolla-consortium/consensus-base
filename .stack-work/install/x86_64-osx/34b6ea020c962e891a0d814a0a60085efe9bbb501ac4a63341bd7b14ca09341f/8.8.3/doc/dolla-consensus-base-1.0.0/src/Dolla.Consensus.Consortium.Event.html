@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DerivingVia #-}</span><span>
+</span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE FlexibleContexts #-}</span><span>
+</span><span id="line-3"></span><span class="hs-pragma">{-# LANGUAGE UndecidableInstances #-}</span><span>
+</span><span id="line-4"></span><span class="hs-pragma">{-# LANGUAGE DuplicateRecordFields #-}</span><span>
+</span><span id="line-5"></span><span class="hs-pragma">{-# LANGUAGE DeriveGeneric #-}</span><span>
+</span><span id="line-6"></span><span class="hs-pragma">{-# OPTIONS_GHC -fno-warn-partial-fields #-}</span><span>
+</span><span id="line-7"></span><span>
+</span><span id="line-8"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Dolla.Consensus.Consortium.Event</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#Event"><span class="hs-identifier">Event</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-9"></span><span>
+</span><span id="line-10"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Aeson</span></span><span>
+</span><span id="line-11"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">GHC.Generics</span></span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Adapter.Aeson.AesonVia</span></span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Libraries.LogEngine.Appendable</span></span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Common.NodeId</span></span><span>
+</span><span id="line-15"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Common.Network.Core</span></span><span>
+</span><span id="line-16"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Common.Memory.Byte</span></span><span>
+</span><span id="line-17"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Common.Offset</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Offset</span></span><span class="hs-special">)</span><span>
+</span><span id="line-18"></span><span>
+</span><span id="line-19"></span><span id="local-6989586621679408006"><span id="local-6989586621679408007"></span></span><span class="hs-keyword">data</span><span> </span><span id="Event"><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#Event"><span class="hs-identifier hs-var">Event</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="ConsortiumMembershipGranted"><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#ConsortiumMembershipGranted"><span class="hs-identifier hs-var">ConsortiumMembershipGranted</span></a></span></span><span> </span><span class="hs-special">{</span><span> </span><span id="%24sel%3AnodeId%3AConsortiumMembershipGranted"><span class="annot"><span class="annottext">Event -&gt; NodeId
+</span><a href="Dolla.Consensus.Consortium.Event.html#%24sel%3AnodeId%3AConsortiumMembershipGranted"><span class="hs-identifier hs-var hs-var">nodeId</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">NodeId</span></span><span> </span><span class="hs-special">}</span><span>
+</span><span id="line-20"></span><span>           </span><span class="hs-glyph">|</span><span> </span><span id="ConsortiumMembershipRevoked"><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#ConsortiumMembershipRevoked"><span class="hs-identifier hs-var">ConsortiumMembershipRevoked</span></a></span></span><span> </span><span class="hs-special">{</span><span> </span><span id="%24sel%3AnodeId%3AConsortiumMembershipGranted"><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#%24sel%3AnodeId%3AConsortiumMembershipGranted"><span class="hs-identifier hs-var">nodeId</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">NodeId</span></span><span> </span><span class="hs-special">}</span><span>
+</span><span id="line-21"></span><span>           </span><span class="hs-glyph">|</span><span> </span><span id="TeamLocated"><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#TeamLocated"><span class="hs-identifier hs-var">TeamLocated</span></a></span></span><span>                 </span><span class="hs-special">{</span><span> </span><span id="%24sel%3AnodeId%3AConsortiumMembershipGranted"><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#%24sel%3AnodeId%3AConsortiumMembershipGranted"><span class="hs-identifier hs-var">nodeId</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">NodeId</span></span><span>
+</span><span id="line-22"></span><span>                                         </span><span class="hs-special">,</span><span> </span><span id="%24sel%3AstatusServerUrl%3AConsortiumMembershipGranted"><span class="annot"><span class="annottext">Event -&gt; URL
+</span><a href="Dolla.Consensus.Consortium.Event.html#%24sel%3AstatusServerUrl%3AConsortiumMembershipGranted"><span class="hs-identifier hs-var hs-var">statusServerUrl</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">URL</span></span><span>
+</span><span id="line-23"></span><span>                                         </span><span class="hs-special">,</span><span> </span><span id="%24sel%3AdownloadServerUrl%3AConsortiumMembershipGranted"><span class="annot"><span class="annottext">Event -&gt; URL
+</span><a href="Dolla.Consensus.Consortium.Event.html#%24sel%3AdownloadServerUrl%3AConsortiumMembershipGranted"><span class="hs-identifier hs-var hs-var">downloadServerUrl</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">URL</span></span><span>
+</span><span id="line-24"></span><span>                                         </span><span class="hs-special">,</span><span> </span><span id="%24sel%3AvotingBroadcastUrl%3AConsortiumMembershipGranted"><span class="annot"><span class="annottext">Event -&gt; URL
+</span><a href="Dolla.Consensus.Consortium.Event.html#%24sel%3AvotingBroadcastUrl%3AConsortiumMembershipGranted"><span class="hs-identifier hs-var hs-var">votingBroadcastUrl</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">URL</span></span><span>
+</span><span id="line-25"></span><span>                                         </span><span class="hs-special">,</span><span> </span><span id="%24sel%3AreceptionistUrl%3AConsortiumMembershipGranted"><span class="annot"><span class="annottext">Event -&gt; URL
+</span><a href="Dolla.Consensus.Consortium.Event.html#%24sel%3AreceptionistUrl%3AConsortiumMembershipGranted"><span class="hs-identifier hs-var hs-var">receptionistUrl</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">URL</span></span><span> </span><span class="hs-special">}</span><span>
+</span><span id="line-26"></span><span>           </span><span class="hs-glyph">|</span><span> </span><span id="TeamReLocated"><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#TeamReLocated"><span class="hs-identifier hs-var">TeamReLocated</span></a></span></span><span>               </span><span class="hs-special">{</span><span> </span><span id="%24sel%3AnodeId%3AConsortiumMembershipGranted"><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#%24sel%3AnodeId%3AConsortiumMembershipGranted"><span class="hs-identifier hs-var">nodeId</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">NodeId</span></span><span>
+</span><span id="line-27"></span><span>                                         </span><span class="hs-special">,</span><span> </span><span id="%24sel%3AstatusServerUrl%3AConsortiumMembershipGranted"><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#%24sel%3AstatusServerUrl%3AConsortiumMembershipGranted"><span class="hs-identifier hs-var">statusServerUrl</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">URL</span></span><span>
+</span><span id="line-28"></span><span>                                         </span><span class="hs-special">,</span><span> </span><span id="%24sel%3AdownloadServerUrl%3AConsortiumMembershipGranted"><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#%24sel%3AdownloadServerUrl%3AConsortiumMembershipGranted"><span class="hs-identifier hs-var">downloadServerUrl</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">URL</span></span><span>
+</span><span id="line-29"></span><span>                                         </span><span class="hs-special">,</span><span> </span><span id="%24sel%3AvotingBroadcastUrl%3AConsortiumMembershipGranted"><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#%24sel%3AvotingBroadcastUrl%3AConsortiumMembershipGranted"><span class="hs-identifier hs-var">votingBroadcastUrl</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">URL</span></span><span>
+</span><span id="line-30"></span><span>                                         </span><span class="hs-special">,</span><span> </span><span id="%24sel%3AreceptionistUrl%3AConsortiumMembershipGranted"><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#%24sel%3AreceptionistUrl%3AConsortiumMembershipGranted"><span class="hs-identifier hs-var">receptionistUrl</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">URL</span></span><span> </span><span class="hs-special">}</span><span>
+</span><span id="line-31"></span><span>           </span><span class="hs-glyph">|</span><span> </span><span id="ProposalSizeLimited"><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#ProposalSizeLimited"><span class="hs-identifier hs-var">ProposalSizeLimited</span></a></span></span><span>         </span><span class="hs-special">{</span><span> </span><span id="%24sel%3Asize%3AConsortiumMembershipGranted"><span class="annot"><span class="annottext">Event -&gt; Byte
+</span><a href="Dolla.Consensus.Consortium.Event.html#%24sel%3Asize%3AConsortiumMembershipGranted"><span class="hs-identifier hs-var hs-var">size</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Byte</span></span><span>  </span><span class="hs-special">}</span><span>
+</span><span id="line-32"></span><span>           </span><span class="hs-glyph">|</span><span> </span><span id="BlockCreated"><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#BlockCreated"><span class="hs-identifier hs-var">BlockCreated</span></a></span></span><span>                </span><span class="hs-special">{</span><span id="%24sel%3AblockOffset%3AConsortiumMembershipGranted"><span class="annot"><span class="annottext">Event -&gt; Offset
+</span><a href="Dolla.Consensus.Consortium.Event.html#%24sel%3AblockOffset%3AConsortiumMembershipGranted"><span class="hs-identifier hs-var hs-var">blockOffset</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Offset</span></span><span> </span><span class="hs-special">}</span><span>
+</span><span id="line-33"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679407989"><span id="local-6989586621679407991"><span class="annot"><span class="annottext">Event -&gt; Event -&gt; Bool
+(Event -&gt; Event -&gt; Bool) -&gt; (Event -&gt; Event -&gt; Bool) -&gt; Eq Event
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+/= :: Event -&gt; Event -&gt; Bool
+$c/= :: Event -&gt; Event -&gt; Bool
+== :: Event -&gt; Event -&gt; Bool
+$c== :: Event -&gt; Event -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679407982"><span id="local-6989586621679407984"><span id="local-6989586621679407986"><span class="annot"><span class="annottext">Int -&gt; Event -&gt; ShowS
+[Event] -&gt; ShowS
+Event -&gt; String
+(Int -&gt; Event -&gt; ShowS)
+-&gt; (Event -&gt; String) -&gt; ([Event] -&gt; ShowS) -&gt; Show Event
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [Event] -&gt; ShowS
+$cshowList :: [Event] -&gt; ShowS
+show :: Event -&gt; String
+$cshow :: Event -&gt; String
+showsPrec :: Int -&gt; Event -&gt; ShowS
+$cshowsPrec :: Int -&gt; Event -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">(forall x. Event -&gt; Rep Event x)
+-&gt; (forall x. Rep Event x -&gt; Event) -&gt; Generic Event
+forall x. Rep Event x -&gt; Event
+forall x. Event -&gt; Rep Event x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cto :: forall x. Rep Event x -&gt; Event
+$cfrom :: forall x. Event -&gt; Rep Event x
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">Generic</span></span><span class="hs-special">)</span><span>
+</span><span id="line-34"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679407970"><span id="local-6989586621679407972"><span id="local-6989586621679407974"><span id="local-6989586621679407976"><span class="annot"><span class="annottext">[Event] -&gt; Encoding
+[Event] -&gt; Value
+Event -&gt; Encoding
+Event -&gt; Value
+(Event -&gt; Value)
+-&gt; (Event -&gt; Encoding)
+-&gt; ([Event] -&gt; Value)
+-&gt; ([Event] -&gt; Encoding)
+-&gt; ToJSON Event
+forall a.
+(a -&gt; Value)
+-&gt; (a -&gt; Encoding)
+-&gt; ([a] -&gt; Value)
+-&gt; ([a] -&gt; Encoding)
+-&gt; ToJSON a
+toEncodingList :: [Event] -&gt; Encoding
+$ctoEncodingList :: [Event] -&gt; Encoding
+toJSONList :: [Event] -&gt; Value
+$ctoJSONList :: [Event] -&gt; Value
+toEncoding :: Event -&gt; Encoding
+$ctoEncoding :: Event -&gt; Encoding
+toJSON :: Event -&gt; Value
+$ctoJSON :: Event -&gt; Value
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">ToJSON</span></span></span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679407965"><span id="local-6989586621679407967"><span class="annot"><span class="annottext">Value -&gt; Parser [Event]
+Value -&gt; Parser Event
+(Value -&gt; Parser Event)
+-&gt; (Value -&gt; Parser [Event]) -&gt; FromJSON Event
+forall a.
+(Value -&gt; Parser a) -&gt; (Value -&gt; Parser [a]) -&gt; FromJSON a
+parseJSONList :: Value -&gt; Parser [Event]
+$cparseJSONList :: Value -&gt; Parser [Event]
+parseJSON :: Value -&gt; Parser Event
+$cparseJSON :: Value -&gt; Parser Event
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">FromJSON</span></span></span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">via</span><span> </span><span class="annot"><span class="hs-identifier hs-type">DefaultJSON</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#Event"><span class="hs-identifier hs-type">Event</span></a></span><span>
+</span><span id="line-35"></span><span>
+</span><span id="line-36"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Appendable</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#Event"><span class="hs-identifier hs-type">Event</span></a></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-37"></span><span>  </span><span id="local-6989586621679407959"><span class="annot"><span class="annottext">getItemName :: Event -&gt; String
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">getItemName</span></span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#ConsortiumMembershipGranted"><span class="hs-identifier hs-type">ConsortiumMembershipGranted</span></a></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-string">&quot;ConsortiumMembershipGranted&quot;</span></span><span>
+</span><span id="line-38"></span><span>  </span><span class="annot"><span class="hs-identifier hs-var">getItemName</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#ConsortiumMembershipRevoked"><span class="hs-identifier hs-type">ConsortiumMembershipRevoked</span></a></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-string">&quot;ConsortiumMembershipRevoked&quot;</span></span><span>
+</span><span id="line-39"></span><span>  </span><span class="annot"><span class="hs-identifier hs-var">getItemName</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#TeamLocated"><span class="hs-identifier hs-type">TeamLocated</span></a></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-string">&quot;TeamLocated&quot;</span></span><span>
+</span><span id="line-40"></span><span>  </span><span class="annot"><span class="hs-identifier hs-var">getItemName</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#TeamReLocated"><span class="hs-identifier hs-type">TeamReLocated</span></a></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-string">&quot;TeamReLocated&quot;</span></span><span>
+</span><span id="line-41"></span><span>  </span><span class="annot"><span class="hs-identifier hs-var">getItemName</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#ProposalSizeLimited"><span class="hs-identifier hs-type">ProposalSizeLimited</span></a></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-string">&quot;ProposalSizeLimited&quot;</span></span><span>
+</span><span id="line-42"></span><span>  </span><span class="annot"><span class="hs-identifier hs-var">getItemName</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Consortium.Event.html#BlockCreated"><span class="hs-identifier hs-type">BlockCreated</span></a></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-string">&quot;BlockCreated&quot;</span></span><span>
+</span><span id="line-43"></span></pre></body></html>

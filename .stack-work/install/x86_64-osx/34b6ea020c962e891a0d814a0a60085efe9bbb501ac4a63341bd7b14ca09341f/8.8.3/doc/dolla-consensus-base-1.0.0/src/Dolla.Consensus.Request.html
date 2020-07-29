@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DerivingVia #-}</span><span>
+</span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE FlexibleContexts #-}</span><span>
+</span><span id="line-3"></span><span class="hs-pragma">{-# LANGUAGE UndecidableInstances #-}</span><span>
+</span><span id="line-4"></span><span class="hs-pragma">{-# LANGUAGE DuplicateRecordFields #-}</span><span>
+</span><span id="line-5"></span><span class="hs-pragma">{-# LANGUAGE DeriveGeneric #-}</span><span>
+</span><span id="line-6"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Dolla.Consensus.Request</span><span>
+</span><span id="line-7"></span><span>  </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Dolla.Consensus.Request.html#RequestChannel"><span class="hs-identifier">RequestChannel</span></a></span><span>
+</span><span id="line-8"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Dolla.Consensus.Request.html#Request"><span class="hs-identifier">Request</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-9"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Dolla.Consensus.Request.html#RequestRange"><span class="hs-identifier">RequestRange</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span class="hs-keyword">where</span><span>
+</span><span id="line-10"></span><span>
+</span><span id="line-11"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Aeson</span></span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">GHC.Generics</span></span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Adapter.Aeson.AesonVia</span></span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><a href="Dolla.Consensus.Consortium.Request.html"><span class="hs-identifier">Dolla.Consensus.Consortium.Request</span></a></span><span>
+</span><span id="line-15"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><a href="Dolla.Consensus.Dummy.Client.Request.html"><span class="hs-identifier">Dolla.Consensus.Dummy.Client.Request</span></a></span><span>
+</span><span id="line-16"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Hashable</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Hashable</span></span><span class="hs-special">)</span><span>
+</span><span id="line-17"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Common.Range</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">OffsetRange</span></span><span class="hs-special">)</span><span>
+</span><span id="line-18"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Libraries.LogEngine.Appendable</span></span><span>
+</span><span id="line-19"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Common.UUID.Provider</span></span><span>
+</span><span id="line-20"></span><span>
+</span><span id="line-21"></span><span id="local-6989586621679408981"><span id="local-6989586621679408982"></span></span><span class="hs-keyword">data</span><span> </span><span id="RequestChannel"><span class="annot"><a href="Dolla.Consensus.Request.html#RequestChannel"><span class="hs-identifier hs-var">RequestChannel</span></a></span></span><span> </span><span>
+</span><span id="line-22"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span id="RequestReceived"><span class="annot"><a href="Dolla.Consensus.Request.html#RequestReceived"><span class="hs-identifier hs-var">RequestReceived</span></a></span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Request.html#Request"><span class="hs-identifier hs-type">Request</span></a></span><span>
+</span><span id="line-23"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="FlushRequested"><span class="annot"><a href="Dolla.Consensus.Request.html#FlushRequested"><span class="hs-identifier hs-var">FlushRequested</span></a></span></span><span>  </span><span>
+</span><span id="line-24"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679408975"><span id="local-6989586621679408977"><span class="annot"><span class="annottext">RequestChannel -&gt; RequestChannel -&gt; Bool
+(RequestChannel -&gt; RequestChannel -&gt; Bool)
+-&gt; (RequestChannel -&gt; RequestChannel -&gt; Bool) -&gt; Eq RequestChannel
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+/= :: RequestChannel -&gt; RequestChannel -&gt; Bool
+$c/= :: RequestChannel -&gt; RequestChannel -&gt; Bool
+== :: RequestChannel -&gt; RequestChannel -&gt; Bool
+$c== :: RequestChannel -&gt; RequestChannel -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679408968"><span id="local-6989586621679408970"><span id="local-6989586621679408972"><span class="annot"><span class="annottext">Int -&gt; RequestChannel -&gt; ShowS
+[RequestChannel] -&gt; ShowS
+RequestChannel -&gt; String
+(Int -&gt; RequestChannel -&gt; ShowS)
+-&gt; (RequestChannel -&gt; String)
+-&gt; ([RequestChannel] -&gt; ShowS)
+-&gt; Show RequestChannel
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [RequestChannel] -&gt; ShowS
+$cshowList :: [RequestChannel] -&gt; ShowS
+show :: RequestChannel -&gt; String
+$cshow :: RequestChannel -&gt; String
+showsPrec :: Int -&gt; RequestChannel -&gt; ShowS
+$cshowsPrec :: Int -&gt; RequestChannel -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">(forall x. RequestChannel -&gt; Rep RequestChannel x)
+-&gt; (forall x. Rep RequestChannel x -&gt; RequestChannel)
+-&gt; Generic RequestChannel
+forall x. Rep RequestChannel x -&gt; RequestChannel
+forall x. RequestChannel -&gt; Rep RequestChannel x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cto :: forall x. Rep RequestChannel x -&gt; RequestChannel
+$cfrom :: forall x. RequestChannel -&gt; Rep RequestChannel x
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">Generic</span></span><span class="hs-special">)</span><span>
+</span><span id="line-25"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679408956"><span id="local-6989586621679408958"><span id="local-6989586621679408960"><span id="local-6989586621679408962"><span class="annot"><span class="annottext">[RequestChannel] -&gt; Encoding
+[RequestChannel] -&gt; Value
+RequestChannel -&gt; Encoding
+RequestChannel -&gt; Value
+(RequestChannel -&gt; Value)
+-&gt; (RequestChannel -&gt; Encoding)
+-&gt; ([RequestChannel] -&gt; Value)
+-&gt; ([RequestChannel] -&gt; Encoding)
+-&gt; ToJSON RequestChannel
+forall a.
+(a -&gt; Value)
+-&gt; (a -&gt; Encoding)
+-&gt; ([a] -&gt; Value)
+-&gt; ([a] -&gt; Encoding)
+-&gt; ToJSON a
+toEncodingList :: [RequestChannel] -&gt; Encoding
+$ctoEncodingList :: [RequestChannel] -&gt; Encoding
+toJSONList :: [RequestChannel] -&gt; Value
+$ctoJSONList :: [RequestChannel] -&gt; Value
+toEncoding :: RequestChannel -&gt; Encoding
+$ctoEncoding :: RequestChannel -&gt; Encoding
+toJSON :: RequestChannel -&gt; Value
+$ctoJSON :: RequestChannel -&gt; Value
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">ToJSON</span></span></span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679408951"><span id="local-6989586621679408953"><span class="annot"><span class="annottext">Value -&gt; Parser [RequestChannel]
+Value -&gt; Parser RequestChannel
+(Value -&gt; Parser RequestChannel)
+-&gt; (Value -&gt; Parser [RequestChannel]) -&gt; FromJSON RequestChannel
+forall a.
+(Value -&gt; Parser a) -&gt; (Value -&gt; Parser [a]) -&gt; FromJSON a
+parseJSONList :: Value -&gt; Parser [RequestChannel]
+$cparseJSONList :: Value -&gt; Parser [RequestChannel]
+parseJSON :: Value -&gt; Parser RequestChannel
+$cparseJSON :: Value -&gt; Parser RequestChannel
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">FromJSON</span></span></span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">via</span><span> </span><span class="annot"><span class="hs-identifier hs-type">DefaultJSON</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Request.html#RequestChannel"><span class="hs-identifier hs-type">RequestChannel</span></a></span><span>  </span><span>
+</span><span id="line-26"></span><span>
+</span><span id="line-27"></span><span id="local-6989586621679408947"><span id="local-6989586621679408948"></span></span><span class="hs-keyword">data</span><span> </span><span id="Request"><span class="annot"><a href="Dolla.Consensus.Request.html#Request"><span class="hs-identifier hs-var">Request</span></a></span></span><span>
+</span><span id="line-28"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span id="ClientReq"><span class="annot"><a href="Dolla.Consensus.Request.html#ClientReq"><span class="hs-identifier hs-var">ClientReq</span></a></span></span><span>     </span><span class="annot"><a href="Dolla.Consensus.Dummy.Client.Request.html#ClientRequest"><span class="hs-identifier hs-type">ClientRequest</span></a></span><span>
+</span><span id="line-29"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="ConsortiumReq"><span class="annot"><a href="Dolla.Consensus.Request.html#ConsortiumReq"><span class="hs-identifier hs-var">ConsortiumReq</span></a></span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Consortium.Request.html#ConsortiumRequest"><span class="hs-identifier hs-type">ConsortiumRequest</span></a></span><span>
+</span><span id="line-30"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679408941"><span id="local-6989586621679408943"><span class="annot"><span class="annottext">Request -&gt; Request -&gt; Bool
+(Request -&gt; Request -&gt; Bool)
+-&gt; (Request -&gt; Request -&gt; Bool) -&gt; Eq Request
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+/= :: Request -&gt; Request -&gt; Bool
+$c/= :: Request -&gt; Request -&gt; Bool
+== :: Request -&gt; Request -&gt; Bool
+$c== :: Request -&gt; Request -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679408935"><span id="local-6989586621679408937"><span id="local-6989586621679408939"><span class="annot"><span class="annottext">Int -&gt; Request -&gt; ShowS
+[Request] -&gt; ShowS
+Request -&gt; String
+(Int -&gt; Request -&gt; ShowS)
+-&gt; (Request -&gt; String) -&gt; ([Request] -&gt; ShowS) -&gt; Show Request
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [Request] -&gt; ShowS
+$cshowList :: [Request] -&gt; ShowS
+show :: Request -&gt; String
+$cshow :: Request -&gt; String
+showsPrec :: Int -&gt; Request -&gt; ShowS
+$cshowsPrec :: Int -&gt; Request -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">(forall x. Request -&gt; Rep Request x)
+-&gt; (forall x. Rep Request x -&gt; Request) -&gt; Generic Request
+forall x. Rep Request x -&gt; Request
+forall x. Request -&gt; Rep Request x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cto :: forall x. Rep Request x -&gt; Request
+$cfrom :: forall x. Request -&gt; Rep Request x
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">Generic</span></span><span class="hs-special">)</span><span>
+</span><span id="line-31"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679408925"><span id="local-6989586621679408927"><span id="local-6989586621679408929"><span id="local-6989586621679408931"><span class="annot"><span class="annottext">[Request] -&gt; Encoding
+[Request] -&gt; Value
+Request -&gt; Encoding
+Request -&gt; Value
+(Request -&gt; Value)
+-&gt; (Request -&gt; Encoding)
+-&gt; ([Request] -&gt; Value)
+-&gt; ([Request] -&gt; Encoding)
+-&gt; ToJSON Request
+forall a.
+(a -&gt; Value)
+-&gt; (a -&gt; Encoding)
+-&gt; ([a] -&gt; Value)
+-&gt; ([a] -&gt; Encoding)
+-&gt; ToJSON a
+toEncodingList :: [Request] -&gt; Encoding
+$ctoEncodingList :: [Request] -&gt; Encoding
+toJSONList :: [Request] -&gt; Value
+$ctoJSONList :: [Request] -&gt; Value
+toEncoding :: Request -&gt; Encoding
+$ctoEncoding :: Request -&gt; Encoding
+toJSON :: Request -&gt; Value
+$ctoJSON :: Request -&gt; Value
+</span><a href="#local-6989586621679408925"><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">ToJSON</span></a></span></span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679408921"><span id="local-6989586621679408923"><span class="annot"><span class="annottext">Value -&gt; Parser [Request]
+Value -&gt; Parser Request
+(Value -&gt; Parser Request)
+-&gt; (Value -&gt; Parser [Request]) -&gt; FromJSON Request
+forall a.
+(Value -&gt; Parser a) -&gt; (Value -&gt; Parser [a]) -&gt; FromJSON a
+parseJSONList :: Value -&gt; Parser [Request]
+$cparseJSONList :: Value -&gt; Parser [Request]
+parseJSON :: Value -&gt; Parser Request
+$cparseJSON :: Value -&gt; Parser Request
+</span><a href="#local-6989586621679408921"><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">FromJSON</span></a></span></span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">via</span><span> </span><span class="annot"><span class="hs-identifier hs-type">DefaultJSON</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Request.html#Request"><span class="hs-identifier hs-type">Request</span></a></span><span>
+</span><span id="line-32"></span><span>
+</span><span id="line-33"></span><span class="hs-keyword">newtype</span><span> </span><span id="RequestRange"><span class="annot"><a href="Dolla.Consensus.Request.html#RequestRange"><span class="hs-identifier hs-var">RequestRange</span></a></span></span><span>
+</span><span id="line-34"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span id="RequestRange"><span class="annot"><a href="Dolla.Consensus.Request.html#RequestRange"><span class="hs-identifier hs-var">RequestRange</span></a></span></span><span> </span><span class="hs-special">{</span><span> </span><span id="%24sel%3Arange%3ARequestRange"><span class="annot"><span class="annottext">RequestRange -&gt; OffsetRange
+</span><a href="Dolla.Consensus.Request.html#%24sel%3Arange%3ARequestRange"><span class="hs-identifier hs-var hs-var">range</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">OffsetRange</span></span><span class="hs-special">}</span><span>
+</span><span id="line-35"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679408915"><span id="local-6989586621679408917"><span class="annot"><span class="annottext">RequestRange -&gt; RequestRange -&gt; Bool
+(RequestRange -&gt; RequestRange -&gt; Bool)
+-&gt; (RequestRange -&gt; RequestRange -&gt; Bool) -&gt; Eq RequestRange
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+/= :: RequestRange -&gt; RequestRange -&gt; Bool
+$c/= :: RequestRange -&gt; RequestRange -&gt; Bool
+== :: RequestRange -&gt; RequestRange -&gt; Bool
+$c== :: RequestRange -&gt; RequestRange -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679408909"><span id="local-6989586621679408911"><span id="local-6989586621679408913"><span class="annot"><span class="annottext">Int -&gt; RequestRange -&gt; ShowS
+[RequestRange] -&gt; ShowS
+RequestRange -&gt; String
+(Int -&gt; RequestRange -&gt; ShowS)
+-&gt; (RequestRange -&gt; String)
+-&gt; ([RequestRange] -&gt; ShowS)
+-&gt; Show RequestRange
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [RequestRange] -&gt; ShowS
+$cshowList :: [RequestRange] -&gt; ShowS
+show :: RequestRange -&gt; String
+$cshow :: RequestRange -&gt; String
+showsPrec :: Int -&gt; RequestRange -&gt; ShowS
+$cshowsPrec :: Int -&gt; RequestRange -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679408905"><span id="local-6989586621679408907"><span class="annot"><span class="annottext">Rep RequestRange x -&gt; RequestRange
+RequestRange -&gt; Rep RequestRange x
+(forall x. RequestRange -&gt; Rep RequestRange x)
+-&gt; (forall x. Rep RequestRange x -&gt; RequestRange)
+-&gt; Generic RequestRange
+forall x. Rep RequestRange x -&gt; RequestRange
+forall x. RequestRange -&gt; Rep RequestRange x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+to :: Rep RequestRange x -&gt; RequestRange
+$cto :: forall x. Rep RequestRange x -&gt; RequestRange
+from :: RequestRange -&gt; Rep RequestRange x
+$cfrom :: forall x. RequestRange -&gt; Rep RequestRange x
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Generic</span></span></span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">via</span><span> </span><span class="annot"><span class="hs-identifier hs-type">OffsetRange</span></span><span>
+</span><span id="line-36"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679408897"><span id="local-6989586621679408899"><span id="local-6989586621679408901"><span id="local-6989586621679408903"><span class="annot"><span class="annottext">[RequestRange] -&gt; Encoding
+[RequestRange] -&gt; Value
+RequestRange -&gt; Encoding
+RequestRange -&gt; Value
+(RequestRange -&gt; Value)
+-&gt; (RequestRange -&gt; Encoding)
+-&gt; ([RequestRange] -&gt; Value)
+-&gt; ([RequestRange] -&gt; Encoding)
+-&gt; ToJSON RequestRange
+forall a.
+(a -&gt; Value)
+-&gt; (a -&gt; Encoding)
+-&gt; ([a] -&gt; Value)
+-&gt; ([a] -&gt; Encoding)
+-&gt; ToJSON a
+toEncodingList :: [RequestRange] -&gt; Encoding
+$ctoEncodingList :: [RequestRange] -&gt; Encoding
+toJSONList :: [RequestRange] -&gt; Value
+$ctoJSONList :: [RequestRange] -&gt; Value
+toEncoding :: RequestRange -&gt; Encoding
+$ctoEncoding :: RequestRange -&gt; Encoding
+toJSON :: RequestRange -&gt; Value
+$ctoJSON :: RequestRange -&gt; Value
+</span><a href="#local-6989586621679408897"><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">ToJSON</span></a></span></span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679408893"><span id="local-6989586621679408895"><span class="annot"><span class="annottext">Value -&gt; Parser [RequestRange]
+Value -&gt; Parser RequestRange
+(Value -&gt; Parser RequestRange)
+-&gt; (Value -&gt; Parser [RequestRange]) -&gt; FromJSON RequestRange
+forall a.
+(Value -&gt; Parser a) -&gt; (Value -&gt; Parser [a]) -&gt; FromJSON a
+parseJSONList :: Value -&gt; Parser [RequestRange]
+$cparseJSONList :: Value -&gt; Parser [RequestRange]
+parseJSON :: Value -&gt; Parser RequestRange
+$cparseJSON :: Value -&gt; Parser RequestRange
+</span><a href="#local-6989586621679408893"><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">FromJSON</span></a></span></span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">via</span><span> </span><span class="annot"><span class="hs-identifier hs-type">OffsetRange</span></span><span>
+</span><span id="line-37"></span><span>
+</span><span id="line-38"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Appendable</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Request.html#Request"><span class="hs-identifier hs-type">Request</span></a></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-39"></span><span>  </span><span id="local-6989586621679408889"><span class="annot"><span class="annottext">getItemName :: Request -&gt; String
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">getItemName</span></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Dolla.Consensus.Request.html#ClientReq"><span class="hs-identifier hs-type">ClientReq</span></a></span><span> </span><span id="local-6989586621679408887"><span class="annot"><span class="annottext">request :: ClientRequest
+</span><a href="#local-6989586621679408887"><span class="hs-identifier hs-var">request</span></a></span></span><span class="hs-special">)</span><span>  </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-string">&quot;ClientRequest.&quot;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ShowS
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">ClientRequest -&gt; String
+forall item. Appendable item =&gt; item -&gt; String
+</span><span class="hs-identifier hs-var">getItemName</span></span><span> </span><span class="annot"><span class="annottext">ClientRequest
+</span><a href="#local-6989586621679408887"><span class="hs-identifier hs-var">request</span></a></span><span>
+</span><span id="line-40"></span><span>  </span><span class="annot"><span class="hs-identifier hs-var">getItemName</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Dolla.Consensus.Request.html#ConsortiumReq"><span class="hs-identifier hs-type">ConsortiumReq</span></a></span><span> </span><span id="local-6989586621679408886"><span class="annot"><span class="annottext">request :: ConsortiumRequest
+</span><a href="#local-6989586621679408886"><span class="hs-identifier hs-var">request</span></a></span></span><span class="hs-special">)</span><span>  </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-string">&quot;ConsortiumRequest.&quot;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ShowS
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">ConsortiumRequest -&gt; String
+forall item. Appendable item =&gt; item -&gt; String
+</span><span class="hs-identifier hs-var">getItemName</span></span><span> </span><span class="annot"><span class="annottext">ConsortiumRequest
+</span><a href="#local-6989586621679408886"><span class="hs-identifier hs-var">request</span></a></span><span>
+</span><span id="line-41"></span><span>
+</span><span id="line-42"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">UUIDProvider</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Request.html#Request"><span class="hs-identifier hs-type">Request</span></a></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-43"></span><span>  </span><span id="local-6989586621679408883"><span class="annot"><span class="annottext">getUUID :: Request -&gt; UUID
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">getUUID</span></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Dolla.Consensus.Request.html#ClientReq"><span class="hs-identifier hs-type">ClientReq</span></a></span><span> </span><span id="local-6989586621679408881"><span class="annot"><span class="annottext">request :: ClientRequest
+</span><a href="#local-6989586621679408881"><span class="hs-identifier hs-var">request</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ClientRequest -&gt; UUID
+forall x. UUIDProvider x =&gt; x -&gt; UUID
+</span><span class="hs-identifier hs-var">getUUID</span></span><span> </span><span class="annot"><span class="annottext">ClientRequest
+</span><a href="#local-6989586621679408881"><span class="hs-identifier hs-var">request</span></a></span><span>
+</span><span id="line-44"></span><span>  </span><span class="annot"><span class="hs-identifier hs-var">getUUID</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Dolla.Consensus.Request.html#ConsortiumReq"><span class="hs-identifier hs-type">ConsortiumReq</span></a></span><span> </span><span id="local-6989586621679408880"><span class="annot"><span class="annottext">request :: ConsortiumRequest
+</span><a href="#local-6989586621679408880"><span class="hs-identifier hs-var">request</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ConsortiumRequest -&gt; UUID
+forall x. UUIDProvider x =&gt; x -&gt; UUID
+</span><span class="hs-identifier hs-var">getUUID</span></span><span> </span><span class="annot"><span class="annottext">ConsortiumRequest
+</span><a href="#local-6989586621679408880"><span class="hs-identifier hs-var">request</span></a></span><span>
+</span><span id="line-45"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679408876"><span id="local-6989586621679408878"><span class="annot"><span class="hs-identifier hs-type">Hashable</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Request.html#RequestRange"><span class="hs-identifier hs-type">RequestRange</span></a></span></span></span><span>
+</span><span id="line-46"></span><span>
+</span><span id="line-47"></span></pre></body></html>

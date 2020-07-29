@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DerivingVia #-}</span><span>
+</span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE FlexibleContexts #-}</span><span>
+</span><span id="line-3"></span><span class="hs-pragma">{-# LANGUAGE UndecidableInstances #-}</span><span>
+</span><span id="line-4"></span><span class="hs-pragma">{-# LANGUAGE DuplicateRecordFields #-}</span><span>
+</span><span id="line-5"></span><span>
+</span><span id="line-6"></span><span class="hs-pragma">{-# OPTIONS_GHC -fno-warn-partial-fields #-}</span><span>
+</span><span id="line-7"></span><span class="hs-pragma">{-# LANGUAGE DeriveGeneric #-}</span><span>
+</span><span id="line-8"></span><span>
+</span><span id="line-9"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Dolla.Consensus.Voting.BinaryMessage</span><span>
+</span><span id="line-10"></span><span>  </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Dolla.Consensus.Voting.BinaryMessage.html#BinaryMessage"><span class="hs-identifier">BinaryMessage</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-11"></span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Aeson</span></span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">GHC.Generics</span></span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Adapter.Aeson.AesonVia</span></span><span>
+</span><span id="line-15"></span><span>
+</span><span id="line-16"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><a href="Dolla.Consensus.Voting.Coordinator.html"><span class="hs-identifier">Dolla.Consensus.Voting.Coordinator</span></a></span><span>
+</span><span id="line-17"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><a href="Dolla.Consensus.Voting.Estimate.html"><span class="hs-identifier">Dolla.Consensus.Voting.Estimate</span></a></span><span>
+</span><span id="line-18"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><a href="Dolla.Consensus.Voting.Auxiliary.html"><span class="hs-identifier">Dolla.Consensus.Voting.Auxiliary</span></a></span><span>
+</span><span id="line-19"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Libraries.LogEngine.Appendable</span></span><span>
+</span><span id="line-20"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html"><span class="hs-identifier">Dolla.Consensus.Log.Aggregation</span></a></span><span>
+</span><span id="line-21"></span><span>
+</span><span id="line-22"></span><span>
+</span><span id="line-23"></span><span id="local-6989586621679409626"><span id="local-6989586621679409627"></span></span><span class="hs-keyword">data</span><span> </span><span id="BinaryMessage"><span class="annot"><a href="Dolla.Consensus.Voting.BinaryMessage.html#BinaryMessage"><span class="hs-identifier hs-var">BinaryMessage</span></a></span></span><span>
+</span><span id="line-24"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span id="AuxiliaryMessage"><span class="annot"><a href="Dolla.Consensus.Voting.BinaryMessage.html#AuxiliaryMessage"><span class="hs-identifier hs-var">AuxiliaryMessage</span></a></span></span><span>              </span><span class="hs-special">{</span><span> </span><span id="%24sel%3AbyVotingRound%3AAuxiliaryMessage"><span class="annot"><span class="annottext">BinaryMessage -&gt; ByVotingRound
+</span><a href="Dolla.Consensus.Voting.BinaryMessage.html#%24sel%3AbyVotingRound%3AAuxiliaryMessage"><span class="hs-identifier hs-var hs-var">byVotingRound</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByVotingRound"><span class="hs-identifier hs-type">ByVotingRound</span></a></span><span class="hs-special">,</span><span> </span><span id="%24sel%3Aauxiliary%3AAuxiliaryMessage"><span class="annot"><span class="annottext">BinaryMessage -&gt; Auxiliary
+</span><a href="Dolla.Consensus.Voting.BinaryMessage.html#%24sel%3Aauxiliary%3AAuxiliaryMessage"><span class="hs-identifier hs-var hs-var">auxiliary</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Dolla.Consensus.Voting.Auxiliary.html#Auxiliary"><span class="hs-identifier hs-type">Auxiliary</span></a></span><span> </span><span class="hs-special">}</span><span>
+</span><span id="line-25"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="CoordinatorPropositionMessage"><span class="annot"><a href="Dolla.Consensus.Voting.BinaryMessage.html#CoordinatorPropositionMessage"><span class="hs-identifier hs-var">CoordinatorPropositionMessage</span></a></span></span><span> </span><span class="hs-special">{</span><span> </span><span id="%24sel%3AbyVotingRound%3AAuxiliaryMessage"><span class="annot"><a href="Dolla.Consensus.Voting.BinaryMessage.html#%24sel%3AbyVotingRound%3AAuxiliaryMessage"><span class="hs-identifier hs-var">byVotingRound</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByVotingRound"><span class="hs-identifier hs-type">ByVotingRound</span></a></span><span class="hs-special">,</span><span> </span><span id="%24sel%3AcoordinatorProposition%3AAuxiliaryMessage"><span class="annot"><span class="annottext">BinaryMessage -&gt; CoordinatorProposition
+</span><a href="Dolla.Consensus.Voting.BinaryMessage.html#%24sel%3AcoordinatorProposition%3AAuxiliaryMessage"><span class="hs-identifier hs-var hs-var">coordinatorProposition</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Dolla.Consensus.Voting.Coordinator.html#CoordinatorProposition"><span class="hs-identifier hs-type">CoordinatorProposition</span></a></span><span> </span><span class="hs-special">}</span><span>
+</span><span id="line-26"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="EstimateMessage"><span class="annot"><a href="Dolla.Consensus.Voting.BinaryMessage.html#EstimateMessage"><span class="hs-identifier hs-var">EstimateMessage</span></a></span></span><span>               </span><span class="hs-special">{</span><span> </span><span id="%24sel%3AbyVotingRound%3AAuxiliaryMessage"><span class="annot"><a href="Dolla.Consensus.Voting.BinaryMessage.html#%24sel%3AbyVotingRound%3AAuxiliaryMessage"><span class="hs-identifier hs-var">byVotingRound</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByVotingRound"><span class="hs-identifier hs-type">ByVotingRound</span></a></span><span class="hs-special">,</span><span> </span><span id="%24sel%3Aestimate%3AAuxiliaryMessage"><span class="annot"><span class="annottext">BinaryMessage -&gt; Estimate
+</span><a href="Dolla.Consensus.Voting.BinaryMessage.html#%24sel%3Aestimate%3AAuxiliaryMessage"><span class="hs-identifier hs-var hs-var">estimate</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Dolla.Consensus.Voting.Estimate.html#Estimate"><span class="hs-identifier hs-type">Estimate</span></a></span><span> </span><span class="hs-special">}</span><span>
+</span><span id="line-27"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679409615"><span id="local-6989586621679409617"><span class="annot"><span class="annottext">BinaryMessage -&gt; BinaryMessage -&gt; Bool
+(BinaryMessage -&gt; BinaryMessage -&gt; Bool)
+-&gt; (BinaryMessage -&gt; BinaryMessage -&gt; Bool) -&gt; Eq BinaryMessage
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+/= :: BinaryMessage -&gt; BinaryMessage -&gt; Bool
+$c/= :: BinaryMessage -&gt; BinaryMessage -&gt; Bool
+== :: BinaryMessage -&gt; BinaryMessage -&gt; Bool
+$c== :: BinaryMessage -&gt; BinaryMessage -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679409608"><span id="local-6989586621679409610"><span id="local-6989586621679409612"><span class="annot"><span class="annottext">Int -&gt; BinaryMessage -&gt; ShowS
+[BinaryMessage] -&gt; ShowS
+BinaryMessage -&gt; String
+(Int -&gt; BinaryMessage -&gt; ShowS)
+-&gt; (BinaryMessage -&gt; String)
+-&gt; ([BinaryMessage] -&gt; ShowS)
+-&gt; Show BinaryMessage
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [BinaryMessage] -&gt; ShowS
+$cshowList :: [BinaryMessage] -&gt; ShowS
+show :: BinaryMessage -&gt; String
+$cshow :: BinaryMessage -&gt; String
+showsPrec :: Int -&gt; BinaryMessage -&gt; ShowS
+$cshowsPrec :: Int -&gt; BinaryMessage -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">(forall x. BinaryMessage -&gt; Rep BinaryMessage x)
+-&gt; (forall x. Rep BinaryMessage x -&gt; BinaryMessage)
+-&gt; Generic BinaryMessage
+forall x. Rep BinaryMessage x -&gt; BinaryMessage
+forall x. BinaryMessage -&gt; Rep BinaryMessage x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cto :: forall x. Rep BinaryMessage x -&gt; BinaryMessage
+$cfrom :: forall x. BinaryMessage -&gt; Rep BinaryMessage x
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">Generic</span></span><span class="hs-special">)</span><span>
+</span><span id="line-28"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679409596"><span id="local-6989586621679409598"><span id="local-6989586621679409600"><span id="local-6989586621679409602"><span class="annot"><span class="annottext">[BinaryMessage] -&gt; Encoding
+[BinaryMessage] -&gt; Value
+BinaryMessage -&gt; Encoding
+BinaryMessage -&gt; Value
+(BinaryMessage -&gt; Value)
+-&gt; (BinaryMessage -&gt; Encoding)
+-&gt; ([BinaryMessage] -&gt; Value)
+-&gt; ([BinaryMessage] -&gt; Encoding)
+-&gt; ToJSON BinaryMessage
+forall a.
+(a -&gt; Value)
+-&gt; (a -&gt; Encoding)
+-&gt; ([a] -&gt; Value)
+-&gt; ([a] -&gt; Encoding)
+-&gt; ToJSON a
+toEncodingList :: [BinaryMessage] -&gt; Encoding
+$ctoEncodingList :: [BinaryMessage] -&gt; Encoding
+toJSONList :: [BinaryMessage] -&gt; Value
+$ctoJSONList :: [BinaryMessage] -&gt; Value
+toEncoding :: BinaryMessage -&gt; Encoding
+$ctoEncoding :: BinaryMessage -&gt; Encoding
+toJSON :: BinaryMessage -&gt; Value
+$ctoJSON :: BinaryMessage -&gt; Value
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">ToJSON</span></span></span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679409591"><span id="local-6989586621679409593"><span class="annot"><span class="annottext">Value -&gt; Parser [BinaryMessage]
+Value -&gt; Parser BinaryMessage
+(Value -&gt; Parser BinaryMessage)
+-&gt; (Value -&gt; Parser [BinaryMessage]) -&gt; FromJSON BinaryMessage
+forall a.
+(Value -&gt; Parser a) -&gt; (Value -&gt; Parser [a]) -&gt; FromJSON a
+parseJSONList :: Value -&gt; Parser [BinaryMessage]
+$cparseJSONList :: Value -&gt; Parser [BinaryMessage]
+parseJSON :: Value -&gt; Parser BinaryMessage
+$cparseJSON :: Value -&gt; Parser BinaryMessage
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">FromJSON</span></span></span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">via</span><span> </span><span class="annot"><span class="hs-identifier hs-type">DefaultJSON</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Voting.BinaryMessage.html#BinaryMessage"><span class="hs-identifier hs-type">BinaryMessage</span></a></span><span>
+</span><span id="line-29"></span><span>
+</span><span id="line-30"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Appendable</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Voting.BinaryMessage.html#BinaryMessage"><span class="hs-identifier hs-type">BinaryMessage</span></a></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-31"></span><span>  </span><span id="local-6989586621679409585"><span class="annot"><span class="annottext">getItemName :: BinaryMessage -&gt; String
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">getItemName</span></span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Voting.BinaryMessage.html#AuxiliaryMessage"><span class="hs-identifier hs-type">AuxiliaryMessage</span></a></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-string">&quot;AuxiliaryMessage&quot;</span></span><span>
+</span><span id="line-32"></span><span>  </span><span class="annot"><span class="hs-identifier hs-var">getItemName</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Voting.BinaryMessage.html#CoordinatorPropositionMessage"><span class="hs-identifier hs-type">CoordinatorPropositionMessage</span></a></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-string">&quot;CoordinatorPropositionMessage&quot;</span></span><span>
+</span><span id="line-33"></span><span>  </span><span class="annot"><span class="hs-identifier hs-var">getItemName</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Voting.BinaryMessage.html#EstimateMessage"><span class="hs-identifier hs-type">EstimateMessage</span></a></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-string">&quot;EstimateMessage&quot;</span></span></pre></body></html>

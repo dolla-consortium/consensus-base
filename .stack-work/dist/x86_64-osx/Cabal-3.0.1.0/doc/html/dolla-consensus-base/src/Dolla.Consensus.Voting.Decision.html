@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DerivingVia, DeriveGeneric, FlexibleContexts,
+  UndecidableInstances, StandaloneDeriving #-}</span><span>
+</span><span id="line-3"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Dolla.Consensus.Voting.Decision</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Dolla.Consensus.Voting.Decision.html#Decision"><span class="hs-identifier">Decision</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span class="annot"><a href="Dolla.Consensus.Voting.Decision.html#decisionFromBool"><span class="hs-identifier">decisionFromBool</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-4"></span><span>
+</span><span id="line-5"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Aeson</span></span><span>
+</span><span id="line-6"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">GHC.Generics</span></span><span>
+</span><span id="line-7"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Adapter.Aeson.AesonVia</span></span><span>
+</span><span id="line-8"></span><span>
+</span><span id="line-9"></span><span id="local-6989586621679409147"><span id="local-6989586621679409148"></span></span><span class="hs-keyword">data</span><span> </span><span id="Decision"><span class="annot"><a href="Dolla.Consensus.Voting.Decision.html#Decision"><span class="hs-identifier hs-var">Decision</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Accepted"><span class="annot"><a href="Dolla.Consensus.Voting.Decision.html#Accepted"><span class="hs-identifier hs-var">Accepted</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Rejected"><span class="annot"><a href="Dolla.Consensus.Voting.Decision.html#Rejected"><span class="hs-identifier hs-var">Rejected</span></a></span></span><span>
+</span><span id="line-10"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679409141"><span id="local-6989586621679409143"><span class="annot"><span class="annottext">Decision -&gt; Decision -&gt; Bool
+(Decision -&gt; Decision -&gt; Bool)
+-&gt; (Decision -&gt; Decision -&gt; Bool) -&gt; Eq Decision
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+/= :: Decision -&gt; Decision -&gt; Bool
+$c/= :: Decision -&gt; Decision -&gt; Bool
+== :: Decision -&gt; Decision -&gt; Bool
+$c== :: Decision -&gt; Decision -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679409134"><span id="local-6989586621679409136"><span id="local-6989586621679409138"><span class="annot"><span class="annottext">Int -&gt; Decision -&gt; ShowS
+[Decision] -&gt; ShowS
+Decision -&gt; String
+(Int -&gt; Decision -&gt; ShowS)
+-&gt; (Decision -&gt; String) -&gt; ([Decision] -&gt; ShowS) -&gt; Show Decision
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [Decision] -&gt; ShowS
+$cshowList :: [Decision] -&gt; ShowS
+show :: Decision -&gt; String
+$cshow :: Decision -&gt; String
+showsPrec :: Int -&gt; Decision -&gt; ShowS
+$cshowsPrec :: Int -&gt; Decision -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">(forall x. Decision -&gt; Rep Decision x)
+-&gt; (forall x. Rep Decision x -&gt; Decision) -&gt; Generic Decision
+forall x. Rep Decision x -&gt; Decision
+forall x. Decision -&gt; Rep Decision x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cto :: forall x. Rep Decision x -&gt; Decision
+$cfrom :: forall x. Decision -&gt; Rep Decision x
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">Generic</span></span><span class="hs-special">)</span><span>
+</span><span id="line-11"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679409122"><span id="local-6989586621679409124"><span id="local-6989586621679409126"><span id="local-6989586621679409128"><span class="annot"><span class="annottext">[Decision] -&gt; Encoding
+[Decision] -&gt; Value
+Decision -&gt; Encoding
+Decision -&gt; Value
+(Decision -&gt; Value)
+-&gt; (Decision -&gt; Encoding)
+-&gt; ([Decision] -&gt; Value)
+-&gt; ([Decision] -&gt; Encoding)
+-&gt; ToJSON Decision
+forall a.
+(a -&gt; Value)
+-&gt; (a -&gt; Encoding)
+-&gt; ([a] -&gt; Value)
+-&gt; ([a] -&gt; Encoding)
+-&gt; ToJSON a
+toEncodingList :: [Decision] -&gt; Encoding
+$ctoEncodingList :: [Decision] -&gt; Encoding
+toJSONList :: [Decision] -&gt; Value
+$ctoJSONList :: [Decision] -&gt; Value
+toEncoding :: Decision -&gt; Encoding
+$ctoEncoding :: Decision -&gt; Encoding
+toJSON :: Decision -&gt; Value
+$ctoJSON :: Decision -&gt; Value
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">ToJSON</span></span></span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679409117"><span id="local-6989586621679409119"><span class="annot"><span class="annottext">Value -&gt; Parser [Decision]
+Value -&gt; Parser Decision
+(Value -&gt; Parser Decision)
+-&gt; (Value -&gt; Parser [Decision]) -&gt; FromJSON Decision
+forall a.
+(Value -&gt; Parser a) -&gt; (Value -&gt; Parser [a]) -&gt; FromJSON a
+parseJSONList :: Value -&gt; Parser [Decision]
+$cparseJSONList :: Value -&gt; Parser [Decision]
+parseJSON :: Value -&gt; Parser Decision
+$cparseJSON :: Value -&gt; Parser Decision
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">FromJSON</span></span></span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">via</span><span> </span><span class="annot"><span class="hs-identifier hs-type">DefaultJSON</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Dolla.Consensus.Voting.Decision.html#Decision"><span class="hs-identifier hs-type">Decision</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-12"></span><span>
+</span><span id="line-13"></span><span>
+</span><span id="line-14"></span><span class="annot"><a href="Dolla.Consensus.Voting.Decision.html#decisionFromBool"><span class="hs-identifier hs-type">decisionFromBool</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Dolla.Consensus.Voting.Decision.html#Decision"><span class="hs-identifier hs-type">Decision</span></a></span><span>
+</span><span id="line-15"></span><span id="decisionFromBool"><span class="annot"><span class="annottext">decisionFromBool :: Bool -&gt; Decision
+</span><a href="Dolla.Consensus.Voting.Decision.html#decisionFromBool"><span class="hs-identifier hs-var hs-var">decisionFromBool</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">True</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Decision
+</span><a href="Dolla.Consensus.Voting.Decision.html#Accepted"><span class="hs-identifier hs-var">Accepted</span></a></span><span>
+</span><span id="line-16"></span><span class="annot"><a href="Dolla.Consensus.Voting.Decision.html#decisionFromBool"><span class="hs-identifier hs-var">decisionFromBool</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">False</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Decision
+</span><a href="Dolla.Consensus.Voting.Decision.html#Rejected"><span class="hs-identifier hs-var">Rejected</span></a></span></pre></body></html>

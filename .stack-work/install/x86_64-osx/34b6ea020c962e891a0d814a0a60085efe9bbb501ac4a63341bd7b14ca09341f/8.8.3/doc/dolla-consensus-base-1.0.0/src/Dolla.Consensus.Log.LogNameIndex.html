@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE OverloadedStrings #-}</span><span>
+</span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE NamedFieldPuns #-}</span><span>
+</span><span id="line-3"></span><span class="hs-pragma">{-# LANGUAGE GADTs #-}</span><span>
+</span><span id="line-4"></span><span class="hs-pragma">{-# LANGUAGE DuplicateRecordFields #-}</span><span>
+</span><span id="line-5"></span><span class="hs-pragma">{-# LANGUAGE QuasiQuotes, ExtendedDefaultRules #-}</span><span>
+</span><span id="line-6"></span><span class="hs-pragma">{-# LANGUAGE RecordWildCards #-}</span><span>
+</span><span id="line-7"></span><span class="hs-pragma">{-# LANGUAGE LambdaCase #-}</span><span>
+</span><span id="line-8"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Dolla.Consensus.Log.LogNameIndex</span><span>
+</span><span id="line-9"></span><span>  </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#LogIndex"><span class="hs-identifier">LogIndex</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-10"></span><span>  </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#getStreamNameFromIndex"><span class="hs-identifier">getStreamNameFromIndex</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-11"></span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span> </span><span class="hs-keyword">hiding</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">round</span></span><span class="hs-special">)</span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Text.InterpolatedString.Perl6</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">qc</span></span><span class="hs-special">)</span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html"><span class="hs-identifier">Dolla.Consensus.Log.Aggregation</span></a></span><span>
+</span><span id="line-15"></span><span>
+</span><span id="line-16"></span><span>
+</span><span id="line-17"></span><span>
+</span><span id="line-18"></span><span class="hs-keyword">data</span><span> </span><span id="LogIndex"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#LogIndex"><span class="hs-identifier hs-var">LogIndex</span></a></span></span><span>
+</span><span id="line-19"></span><span>    </span><span class="hs-comment">-- Proposal Proposer</span><span>
+</span><span id="line-20"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span id="ProposerInputLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#ProposerInputLog"><span class="hs-identifier hs-var">ProposerInputLog</span></a></span></span><span>
+</span><span id="line-21"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="ProposerOutputLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#ProposerOutputLog"><span class="hs-identifier hs-var">ProposerOutputLog</span></a></span></span><span>
+</span><span id="line-22"></span><span>  </span><span class="hs-comment">-- Proposal Broadcast</span><span>
+</span><span id="line-23"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="PBSyncedProposalMessageLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#PBSyncedProposalMessageLog"><span class="hs-identifier hs-var">PBSyncedProposalMessageLog</span></a></span></span><span>          </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByProposalBroadcaster"><span class="hs-identifier hs-type">ByProposalBroadcaster</span></a></span><span>
+</span><span id="line-24"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="PBSyncedProposalMessageMergedLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#PBSyncedProposalMessageMergedLog"><span class="hs-identifier hs-var">PBSyncedProposalMessageMergedLog</span></a></span></span><span>    </span><span class="hs-comment">-- Todo : Make the aggregation byProposer instead of current at large</span><span>
+</span><span id="line-25"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="PBAlgorithmInput"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#PBAlgorithmInput"><span class="hs-identifier hs-var">PBAlgorithmInput</span></a></span></span><span>                    </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByProposer"><span class="hs-identifier hs-type">ByProposer</span></a></span><span>
+</span><span id="line-26"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="PBAlgorithmOutput"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#PBAlgorithmOutput"><span class="hs-identifier hs-var">PBAlgorithmOutput</span></a></span></span><span>                   </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByProposer"><span class="hs-identifier hs-type">ByProposer</span></a></span><span>
+</span><span id="line-27"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="PBAlgorithmOutputMergedLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#PBAlgorithmOutputMergedLog"><span class="hs-identifier hs-var">PBAlgorithmOutputMergedLog</span></a></span></span><span>
+</span><span id="line-28"></span><span>  </span><span class="hs-comment">-- Maestro</span><span>
+</span><span id="line-29"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="MaestroInputLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#MaestroInputLog"><span class="hs-identifier hs-var">MaestroInputLog</span></a></span></span><span>                      </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByBlockOffset"><span class="hs-identifier hs-type">ByBlockOffset</span></a></span><span>
+</span><span id="line-30"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="MaestroOutputLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#MaestroOutputLog"><span class="hs-identifier hs-var">MaestroOutputLog</span></a></span></span><span>                     </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByBlockOffset"><span class="hs-identifier hs-type">ByBlockOffset</span></a></span><span>
+</span><span id="line-31"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="MaestroOutputMergedLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#MaestroOutputMergedLog"><span class="hs-identifier hs-var">MaestroOutputMergedLog</span></a></span></span><span>
+</span><span id="line-32"></span><span>  </span><span class="hs-comment">-- Orchestrator</span><span>
+</span><span id="line-33"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="OrchestratorLifeCycleSPInputLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#OrchestratorLifeCycleSPInputLog"><span class="hs-identifier hs-var">OrchestratorLifeCycleSPInputLog</span></a></span></span><span>      </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByBlockOffset"><span class="hs-identifier hs-type">ByBlockOffset</span></a></span><span>
+</span><span id="line-34"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="OrchestratorPersistedInputLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#OrchestratorPersistedInputLog"><span class="hs-identifier hs-var">OrchestratorPersistedInputLog</span></a></span></span><span>        </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByProposer"><span class="hs-identifier hs-type">ByProposer</span></a></span><span>
+</span><span id="line-35"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="OrchestratorPersistedOutputLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#OrchestratorPersistedOutputLog"><span class="hs-identifier hs-var">OrchestratorPersistedOutputLog</span></a></span></span><span>       </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByProposer"><span class="hs-identifier hs-type">ByProposer</span></a></span><span>
+</span><span id="line-36"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="OrchestratorPersistedOutputMergedLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#OrchestratorPersistedOutputMergedLog"><span class="hs-identifier hs-var">OrchestratorPersistedOutputMergedLog</span></a></span></span><span>
+</span><span id="line-37"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="OrchestratorTimedOutOutputLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#OrchestratorTimedOutOutputLog"><span class="hs-identifier hs-var">OrchestratorTimedOutOutputLog</span></a></span></span><span>        </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByProposer"><span class="hs-identifier hs-type">ByProposer</span></a></span><span>
+</span><span id="line-38"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="OrchestratorTimedOutOutputMergedLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#OrchestratorTimedOutOutputMergedLog"><span class="hs-identifier hs-var">OrchestratorTimedOutOutputMergedLog</span></a></span></span><span>
+</span><span id="line-39"></span><span>  </span><span class="hs-comment">-- Binary Broadcast</span><span>
+</span><span id="line-40"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="BBOutGoingMessageLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#BBOutGoingMessageLog"><span class="hs-identifier hs-var">BBOutGoingMessageLog</span></a></span></span><span>                 </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByBlockOffset"><span class="hs-identifier hs-type">ByBlockOffset</span></a></span><span>
+</span><span id="line-41"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="BBSyncedMessageLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#BBSyncedMessageLog"><span class="hs-identifier hs-var">BBSyncedMessageLog</span></a></span></span><span>                   </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByBroadcaster"><span class="hs-identifier hs-type">ByBroadcaster</span></a></span><span>
+</span><span id="line-42"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="BBSyncedMessageMergedLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#BBSyncedMessageMergedLog"><span class="hs-identifier hs-var">BBSyncedMessageMergedLog</span></a></span></span><span>
+</span><span id="line-43"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="BBAlgorithmLifeCycleSPInputLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#BBAlgorithmLifeCycleSPInputLog"><span class="hs-identifier hs-var">BBAlgorithmLifeCycleSPInputLog</span></a></span></span><span>       </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByBlockOffset"><span class="hs-identifier hs-type">ByBlockOffset</span></a></span><span>
+</span><span id="line-44"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="BBAlgorithmInputLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#BBAlgorithmInputLog"><span class="hs-identifier hs-var">BBAlgorithmInputLog</span></a></span></span><span>                  </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByVotingRound"><span class="hs-identifier hs-type">ByVotingRound</span></a></span><span>
+</span><span id="line-45"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="BBAlgorithmOutputLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#BBAlgorithmOutputLog"><span class="hs-identifier hs-var">BBAlgorithmOutputLog</span></a></span></span><span>                 </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByVotingRound"><span class="hs-identifier hs-type">ByVotingRound</span></a></span><span>
+</span><span id="line-46"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="BBAlgorithmOutputMergedLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#BBAlgorithmOutputMergedLog"><span class="hs-identifier hs-var">BBAlgorithmOutputMergedLog</span></a></span></span><span>
+</span><span id="line-47"></span><span>  </span><span class="hs-comment">-- Transaction</span><span>
+</span><span id="line-48"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="TransactionOrderingInputLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#TransactionOrderingInputLog"><span class="hs-identifier hs-var">TransactionOrderingInputLog</span></a></span></span><span>          </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByBlockOffset"><span class="hs-identifier hs-type">ByBlockOffset</span></a></span><span>
+</span><span id="line-49"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="TransactionMergingInputLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#TransactionMergingInputLog"><span class="hs-identifier hs-var">TransactionMergingInputLog</span></a></span></span><span>           </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByBlockOffset"><span class="hs-identifier hs-type">ByBlockOffset</span></a></span><span>
+</span><span id="line-50"></span><span>
+</span><span id="line-51"></span><span>  </span><span class="hs-comment">-- Requests</span><span>
+</span><span id="line-52"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="LocalRequestLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#LocalRequestLog"><span class="hs-identifier hs-var">LocalRequestLog</span></a></span></span><span>
+</span><span id="line-53"></span><span>
+</span><span id="line-54"></span><span>  </span><span class="hs-comment">-- Ledgers</span><span>
+</span><span id="line-55"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="ClientMergedRequestLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#ClientMergedRequestLog"><span class="hs-identifier hs-var">ClientMergedRequestLog</span></a></span></span><span>
+</span><span id="line-56"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="ClientEventLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#ClientEventLog"><span class="hs-identifier hs-var">ClientEventLog</span></a></span></span><span>
+</span><span id="line-57"></span><span>
+</span><span id="line-58"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="ConsortiumMergedRequestLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#ConsortiumMergedRequestLog"><span class="hs-identifier hs-var">ConsortiumMergedRequestLog</span></a></span></span><span>
+</span><span id="line-59"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="ConsortiumEventLog"><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#ConsortiumEventLog"><span class="hs-identifier hs-var">ConsortiumEventLog</span></a></span></span><span>
+</span><span id="line-60"></span><span>
+</span><span id="line-61"></span><span>
+</span><span id="line-62"></span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#getStreamNameFromIndex"><span class="hs-identifier hs-type">getStreamNameFromIndex</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#LogIndex"><span class="hs-identifier hs-type">LogIndex</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
+</span><span id="line-63"></span><span id="getStreamNameFromIndex"><span class="annot"><span class="annottext">getStreamNameFromIndex :: LogIndex -&gt; String
+</span><a href="Dolla.Consensus.Log.LogNameIndex.html#getStreamNameFromIndex"><span class="hs-identifier hs-var hs-var">getStreamNameFromIndex</span></a></span></span><span>
+</span><span id="line-64"></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-65"></span><span>  </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
+</span><span id="line-66"></span><span>    </span><span class="hs-comment">-- Proposal Proposer</span><span>
+</span><span id="line-67"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#ProposerInputLog"><span class="hs-identifier hs-type">ProposerInputLog</span></a></span><span>                             </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|proposer_input|]</span></span><span>
+</span><span id="line-68"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#ProposerOutputLog"><span class="hs-identifier hs-type">ProposerOutputLog</span></a></span><span>                            </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|proposer_output|]</span></span><span>
+</span><span id="line-69"></span><span>    </span><span class="hs-comment">-- Proposal Broadcast                        </span><span>
+</span><span id="line-70"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#PBSyncedProposalMessageLog"><span class="hs-identifier hs-type">PBSyncedProposalMessageLog</span></a></span><span> </span><span id="local-6989586621679409825"><span class="annot"><span class="annottext">aggregation :: ByProposalBroadcaster
+</span><a href="#local-6989586621679409825"><span class="hs-identifier hs-var">aggregation</span></a></span></span><span>       </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|proposal_broadcast_synced_message|]</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="Dolla.Consensus.Log.LogNameIndex.html#applyByCategoryProjection"><span class="hs-identifier hs-var">applyByCategoryProjection</span></a></span><span>  </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">ByProposalBroadcaster -&gt; String
+forall aggregation.
+StreamNameTranslatable aggregation =&gt;
+aggregation -&gt; String
+</span><a href="Dolla.Consensus.Log.Aggregation.html#toStreamName"><span class="hs-identifier hs-var">toStreamName</span></a></span><span> </span><span class="annot"><span class="annottext">ByProposalBroadcaster
+</span><a href="#local-6989586621679409825"><span class="hs-identifier hs-var">aggregation</span></a></span><span>
+</span><span id="line-71"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#PBSyncedProposalMessageMergedLog"><span class="hs-identifier hs-type">PBSyncedProposalMessageMergedLog</span></a></span><span>             </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|$ce-proposal_broadcast_synced_message|]</span></span><span>
+</span><span id="line-72"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#PBAlgorithmInput"><span class="hs-identifier hs-type">PBAlgorithmInput</span></a></span><span> </span><span id="local-6989586621679409822"><span class="annot"><span class="annottext">aggregation :: ByProposer
+</span><a href="#local-6989586621679409822"><span class="hs-identifier hs-var">aggregation</span></a></span></span><span>                 </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|proposal_broadcast_algorithm_input_|]</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">ByProposer -&gt; String
+forall aggregation.
+StreamNameTranslatable aggregation =&gt;
+aggregation -&gt; String
+</span><a href="Dolla.Consensus.Log.Aggregation.html#toStreamName"><span class="hs-identifier hs-var">toStreamName</span></a></span><span> </span><span class="annot"><span class="annottext">ByProposer
+</span><a href="#local-6989586621679409822"><span class="hs-identifier hs-var">aggregation</span></a></span><span>
+</span><span id="line-73"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#PBAlgorithmOutput"><span class="hs-identifier hs-type">PBAlgorithmOutput</span></a></span><span> </span><span id="local-6989586621679409821"><span class="annot"><span class="annottext">aggregation :: ByProposer
+</span><a href="#local-6989586621679409821"><span class="hs-identifier hs-var">aggregation</span></a></span></span><span>                </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|proposal_broadcast_algorithm_output|]</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="Dolla.Consensus.Log.LogNameIndex.html#applyByCategoryProjection"><span class="hs-identifier hs-var">applyByCategoryProjection</span></a></span><span>  </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">ByProposer -&gt; String
+forall aggregation.
+StreamNameTranslatable aggregation =&gt;
+aggregation -&gt; String
+</span><a href="Dolla.Consensus.Log.Aggregation.html#toStreamName"><span class="hs-identifier hs-var">toStreamName</span></a></span><span> </span><span class="annot"><span class="annottext">ByProposer
+</span><a href="#local-6989586621679409821"><span class="hs-identifier hs-var">aggregation</span></a></span><span>
+</span><span id="line-74"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#PBAlgorithmOutputMergedLog"><span class="hs-identifier hs-type">PBAlgorithmOutputMergedLog</span></a></span><span>                   </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|$ce-proposal_broadcast_algorithm_output|]</span></span><span>
+</span><span id="line-75"></span><span>    </span><span class="hs-comment">-- Maestro                                   </span><span>
+</span><span id="line-76"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#MaestroInputLog"><span class="hs-identifier hs-type">MaestroInputLog</span></a></span><span>  </span><span id="local-6989586621679409820"><span class="annot"><span class="annottext">aggregation :: ByBlockOffset
+</span><a href="#local-6989586621679409820"><span class="hs-identifier hs-var">aggregation</span></a></span></span><span>                 </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|maestro_input_|]</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">ByBlockOffset -&gt; String
+forall aggregation.
+StreamNameTranslatable aggregation =&gt;
+aggregation -&gt; String
+</span><a href="Dolla.Consensus.Log.Aggregation.html#toStreamName"><span class="hs-identifier hs-var">toStreamName</span></a></span><span> </span><span class="annot"><span class="annottext">ByBlockOffset
+</span><a href="#local-6989586621679409820"><span class="hs-identifier hs-var">aggregation</span></a></span><span>
+</span><span id="line-77"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#MaestroOutputLog"><span class="hs-identifier hs-type">MaestroOutputLog</span></a></span><span> </span><span id="local-6989586621679409819"><span class="annot"><span class="annottext">aggregation :: ByBlockOffset
+</span><a href="#local-6989586621679409819"><span class="hs-identifier hs-var">aggregation</span></a></span></span><span>                 </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|maestro_output|]</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="Dolla.Consensus.Log.LogNameIndex.html#applyByCategoryProjection"><span class="hs-identifier hs-var">applyByCategoryProjection</span></a></span><span>  </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">ByBlockOffset -&gt; String
+forall aggregation.
+StreamNameTranslatable aggregation =&gt;
+aggregation -&gt; String
+</span><a href="Dolla.Consensus.Log.Aggregation.html#toStreamName"><span class="hs-identifier hs-var">toStreamName</span></a></span><span> </span><span class="annot"><span class="annottext">ByBlockOffset
+</span><a href="#local-6989586621679409819"><span class="hs-identifier hs-var">aggregation</span></a></span><span>
+</span><span id="line-78"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#MaestroOutputMergedLog"><span class="hs-identifier hs-type">MaestroOutputMergedLog</span></a></span><span>                       </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|$ce-maestro_output|]</span></span><span>
+</span><span id="line-79"></span><span>    </span><span class="hs-comment">-- Orchestrator                              </span><span>
+</span><span id="line-80"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#OrchestratorLifeCycleSPInputLog"><span class="hs-identifier hs-type">OrchestratorLifeCycleSPInputLog</span></a></span><span> </span><span id="local-6989586621679409818"><span class="annot"><span class="annottext">aggregation :: ByBlockOffset
+</span><a href="#local-6989586621679409818"><span class="hs-identifier hs-var">aggregation</span></a></span></span><span>  </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|voting_orchestrator_lifecycle_|]</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">ByBlockOffset -&gt; String
+forall aggregation.
+StreamNameTranslatable aggregation =&gt;
+aggregation -&gt; String
+</span><a href="Dolla.Consensus.Log.Aggregation.html#toStreamName"><span class="hs-identifier hs-var">toStreamName</span></a></span><span> </span><span class="annot"><span class="annottext">ByBlockOffset
+</span><a href="#local-6989586621679409818"><span class="hs-identifier hs-var">aggregation</span></a></span><span>
+</span><span id="line-81"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#OrchestratorPersistedInputLog"><span class="hs-identifier hs-type">OrchestratorPersistedInputLog</span></a></span><span> </span><span id="local-6989586621679409817"><span class="annot"><span class="annottext">aggregation :: ByProposer
+</span><a href="#local-6989586621679409817"><span class="hs-identifier hs-var">aggregation</span></a></span></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|voting_orchestrator_input_|]</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">ByProposer -&gt; String
+forall aggregation.
+StreamNameTranslatable aggregation =&gt;
+aggregation -&gt; String
+</span><a href="Dolla.Consensus.Log.Aggregation.html#toStreamName"><span class="hs-identifier hs-var">toStreamName</span></a></span><span> </span><span class="annot"><span class="annottext">ByProposer
+</span><a href="#local-6989586621679409817"><span class="hs-identifier hs-var">aggregation</span></a></span><span>
+</span><span id="line-82"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#OrchestratorPersistedOutputLog"><span class="hs-identifier hs-type">OrchestratorPersistedOutputLog</span></a></span><span> </span><span id="local-6989586621679409816"><span class="annot"><span class="annottext">aggregation :: ByProposer
+</span><a href="#local-6989586621679409816"><span class="hs-identifier hs-var">aggregation</span></a></span></span><span>   </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|voting_orchestrator_output|]</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="Dolla.Consensus.Log.LogNameIndex.html#applyByCategoryProjection"><span class="hs-identifier hs-var">applyByCategoryProjection</span></a></span><span>  </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">ByProposer -&gt; String
+forall aggregation.
+StreamNameTranslatable aggregation =&gt;
+aggregation -&gt; String
+</span><a href="Dolla.Consensus.Log.Aggregation.html#toStreamName"><span class="hs-identifier hs-var">toStreamName</span></a></span><span> </span><span class="annot"><span class="annottext">ByProposer
+</span><a href="#local-6989586621679409816"><span class="hs-identifier hs-var">aggregation</span></a></span><span>
+</span><span id="line-83"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#OrchestratorPersistedOutputMergedLog"><span class="hs-identifier hs-type">OrchestratorPersistedOutputMergedLog</span></a></span><span>         </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|$ce-voting_orchestrator_output|]</span></span><span>
+</span><span id="line-84"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#OrchestratorTimedOutOutputLog"><span class="hs-identifier hs-type">OrchestratorTimedOutOutputLog</span></a></span><span> </span><span id="local-6989586621679409815"><span class="annot"><span class="annottext">aggregation :: ByProposer
+</span><a href="#local-6989586621679409815"><span class="hs-identifier hs-var">aggregation</span></a></span></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|voting_orchestrator_timedout|]</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="Dolla.Consensus.Log.LogNameIndex.html#applyByCategoryProjection"><span class="hs-identifier hs-var">applyByCategoryProjection</span></a></span><span>  </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">ByProposer -&gt; String
+forall aggregation.
+StreamNameTranslatable aggregation =&gt;
+aggregation -&gt; String
+</span><a href="Dolla.Consensus.Log.Aggregation.html#toStreamName"><span class="hs-identifier hs-var">toStreamName</span></a></span><span> </span><span class="annot"><span class="annottext">ByProposer
+</span><a href="#local-6989586621679409815"><span class="hs-identifier hs-var">aggregation</span></a></span><span>
+</span><span id="line-85"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#OrchestratorTimedOutOutputMergedLog"><span class="hs-identifier hs-type">OrchestratorTimedOutOutputMergedLog</span></a></span><span>          </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|$ce-voting_orchestrator_timedout|]</span></span><span>
+</span><span id="line-86"></span><span>    </span><span class="hs-comment">-- Binary Broadcast                          </span><span>
+</span><span id="line-87"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#BBOutGoingMessageLog"><span class="hs-identifier hs-type">BBOutGoingMessageLog</span></a></span><span> </span><span id="local-6989586621679409814"><span class="annot"><span class="annottext">aggregation :: ByBlockOffset
+</span><a href="#local-6989586621679409814"><span class="hs-identifier hs-var">aggregation</span></a></span></span><span>             </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|binary_broadcast_outgoing_message_|]</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">ByBlockOffset -&gt; String
+forall aggregation.
+StreamNameTranslatable aggregation =&gt;
+aggregation -&gt; String
+</span><a href="Dolla.Consensus.Log.Aggregation.html#toStreamName"><span class="hs-identifier hs-var">toStreamName</span></a></span><span> </span><span class="annot"><span class="annottext">ByBlockOffset
+</span><a href="#local-6989586621679409814"><span class="hs-identifier hs-var">aggregation</span></a></span><span>
+</span><span id="line-88"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#BBSyncedMessageLog"><span class="hs-identifier hs-type">BBSyncedMessageLog</span></a></span><span> </span><span id="local-6989586621679409813"><span class="annot"><span class="annottext">aggregation :: ByBroadcaster
+</span><a href="#local-6989586621679409813"><span class="hs-identifier hs-var">aggregation</span></a></span></span><span>               </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|binary_broadcast_synced_message|]</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="Dolla.Consensus.Log.LogNameIndex.html#applyByCategoryProjection"><span class="hs-identifier hs-var">applyByCategoryProjection</span></a></span><span>  </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">ByBroadcaster -&gt; String
+forall aggregation.
+StreamNameTranslatable aggregation =&gt;
+aggregation -&gt; String
+</span><a href="Dolla.Consensus.Log.Aggregation.html#toStreamName"><span class="hs-identifier hs-var">toStreamName</span></a></span><span> </span><span class="annot"><span class="annottext">ByBroadcaster
+</span><a href="#local-6989586621679409813"><span class="hs-identifier hs-var">aggregation</span></a></span><span>
+</span><span id="line-89"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#BBSyncedMessageMergedLog"><span class="hs-identifier hs-type">BBSyncedMessageMergedLog</span></a></span><span>                     </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|$ce-binary_broadcast_synced_message|]</span></span><span>
+</span><span id="line-90"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#BBAlgorithmLifeCycleSPInputLog"><span class="hs-identifier hs-type">BBAlgorithmLifeCycleSPInputLog</span></a></span><span> </span><span id="local-6989586621679409812"><span class="annot"><span class="annottext">aggregation :: ByBlockOffset
+</span><a href="#local-6989586621679409812"><span class="hs-identifier hs-var">aggregation</span></a></span></span><span>   </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|binary_broadcast_lifecycle_|]</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">ByBlockOffset -&gt; String
+forall aggregation.
+StreamNameTranslatable aggregation =&gt;
+aggregation -&gt; String
+</span><a href="Dolla.Consensus.Log.Aggregation.html#toStreamName"><span class="hs-identifier hs-var">toStreamName</span></a></span><span> </span><span class="annot"><span class="annottext">ByBlockOffset
+</span><a href="#local-6989586621679409812"><span class="hs-identifier hs-var">aggregation</span></a></span><span>
+</span><span id="line-91"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#BBAlgorithmInputLog"><span class="hs-identifier hs-type">BBAlgorithmInputLog</span></a></span><span> </span><span id="local-6989586621679409811"><span class="annot"><span class="annottext">aggregation :: ByVotingRound
+</span><a href="#local-6989586621679409811"><span class="hs-identifier hs-var">aggregation</span></a></span></span><span>              </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|binary_broadcast_input_|]</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">ByVotingRound -&gt; String
+forall aggregation.
+StreamNameTranslatable aggregation =&gt;
+aggregation -&gt; String
+</span><a href="Dolla.Consensus.Log.Aggregation.html#toStreamName"><span class="hs-identifier hs-var">toStreamName</span></a></span><span> </span><span class="annot"><span class="annottext">ByVotingRound
+</span><a href="#local-6989586621679409811"><span class="hs-identifier hs-var">aggregation</span></a></span><span>
+</span><span id="line-92"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#BBAlgorithmOutputLog"><span class="hs-identifier hs-type">BBAlgorithmOutputLog</span></a></span><span> </span><span id="local-6989586621679409810"><span class="annot"><span class="annottext">aggregation :: ByVotingRound
+</span><a href="#local-6989586621679409810"><span class="hs-identifier hs-var">aggregation</span></a></span></span><span>             </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|binary_broadcast_output|]</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="Dolla.Consensus.Log.LogNameIndex.html#applyByCategoryProjection"><span class="hs-identifier hs-var">applyByCategoryProjection</span></a></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">ByVotingRound -&gt; String
+forall aggregation.
+StreamNameTranslatable aggregation =&gt;
+aggregation -&gt; String
+</span><a href="Dolla.Consensus.Log.Aggregation.html#toStreamName"><span class="hs-identifier hs-var">toStreamName</span></a></span><span> </span><span class="annot"><span class="annottext">ByVotingRound
+</span><a href="#local-6989586621679409810"><span class="hs-identifier hs-var">aggregation</span></a></span><span>
+</span><span id="line-93"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#BBAlgorithmOutputMergedLog"><span class="hs-identifier hs-type">BBAlgorithmOutputMergedLog</span></a></span><span>                   </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|$ce-binary_broadcast_output|]</span></span><span>
+</span><span id="line-94"></span><span>    </span><span class="hs-comment">-- Transaction</span><span>
+</span><span id="line-95"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#TransactionOrderingInputLog"><span class="hs-identifier hs-type">TransactionOrderingInputLog</span></a></span><span>  </span><span id="local-6989586621679409809"><span class="annot"><span class="annottext">aggregation :: ByBlockOffset
+</span><a href="#local-6989586621679409809"><span class="hs-identifier hs-var">aggregation</span></a></span></span><span>     </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|transaction_ordering_input_|]</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">ByBlockOffset -&gt; String
+forall aggregation.
+StreamNameTranslatable aggregation =&gt;
+aggregation -&gt; String
+</span><a href="Dolla.Consensus.Log.Aggregation.html#toStreamName"><span class="hs-identifier hs-var">toStreamName</span></a></span><span> </span><span class="annot"><span class="annottext">ByBlockOffset
+</span><a href="#local-6989586621679409809"><span class="hs-identifier hs-var">aggregation</span></a></span><span>
+</span><span id="line-96"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#TransactionMergingInputLog"><span class="hs-identifier hs-type">TransactionMergingInputLog</span></a></span><span>   </span><span id="local-6989586621679409808"><span class="annot"><span class="annottext">aggregation :: ByBlockOffset
+</span><a href="#local-6989586621679409808"><span class="hs-identifier hs-var">aggregation</span></a></span></span><span>     </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|transaction_merging_input_|]</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. [a] -&gt; [a] -&gt; [a]
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">ByBlockOffset -&gt; String
+forall aggregation.
+StreamNameTranslatable aggregation =&gt;
+aggregation -&gt; String
+</span><a href="Dolla.Consensus.Log.Aggregation.html#toStreamName"><span class="hs-identifier hs-var">toStreamName</span></a></span><span> </span><span class="annot"><span class="annottext">ByBlockOffset
+</span><a href="#local-6989586621679409808"><span class="hs-identifier hs-var">aggregation</span></a></span><span>
+</span><span id="line-97"></span><span>    </span><span class="hs-comment">-- Requests</span><span>
+</span><span id="line-98"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#LocalRequestLog"><span class="hs-identifier hs-type">LocalRequestLog</span></a></span><span>                              </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|request|]</span></span><span>
+</span><span id="line-99"></span><span>    </span><span class="hs-comment">-- Ledgers</span><span>
+</span><span id="line-100"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#ClientMergedRequestLog"><span class="hs-identifier hs-type">ClientMergedRequestLog</span></a></span><span>                       </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|merged_client_request|]</span></span><span>
+</span><span id="line-101"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#ClientEventLog"><span class="hs-identifier hs-type">ClientEventLog</span></a></span><span>                               </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|client_event|]</span></span><span>
+</span><span id="line-102"></span><span>
+</span><span id="line-103"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#ConsortiumMergedRequestLog"><span class="hs-identifier hs-type">ConsortiumMergedRequestLog</span></a></span><span>                   </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|merged_consortium_request|]</span></span><span>
+</span><span id="line-104"></span><span>    </span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#ConsortiumEventLog"><span class="hs-identifier hs-type">ConsortiumEventLog</span></a></span><span>                           </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="">[qc|consortium_event|]</span></span><span>
+</span><span id="line-105"></span><span>
+</span><span id="line-106"></span><span class="annot"><a href="Dolla.Consensus.Log.LogNameIndex.html#applyByCategoryProjection"><span class="hs-identifier hs-type">applyByCategoryProjection</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
+</span><span id="line-107"></span><span id="applyByCategoryProjection"><span class="annot"><span class="annottext">applyByCategoryProjection :: String
+</span><a href="Dolla.Consensus.Log.LogNameIndex.html#applyByCategoryProjection"><span class="hs-identifier hs-var hs-var">applyByCategoryProjection</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-string">&quot;-&quot;</span></span><span>
+</span><span id="line-108"></span><span>
+</span><span id="line-109"></span><span>
+</span><span id="line-110"></span></pre></body></html>

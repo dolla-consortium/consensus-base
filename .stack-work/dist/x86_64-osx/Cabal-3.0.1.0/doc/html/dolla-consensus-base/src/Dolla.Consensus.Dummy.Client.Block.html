@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DuplicateRecordFields #-}</span><span>
+</span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE DerivingVia, DeriveGeneric #-}</span><span>
+</span><span id="line-3"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Dolla.Consensus.Dummy.Client.Block</span><span>
+</span><span id="line-4"></span><span>  </span><span class="hs-special">(</span><span class="annot"><a href="Dolla.Consensus.Dummy.Client.Block.html#ClientEventBlock"><span class="hs-identifier">ClientEventBlock</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-5"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-6"></span><span>
+</span><span id="line-7"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Aeson</span></span><span>
+</span><span id="line-8"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">GHC.Generics</span></span><span>
+</span><span id="line-9"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Adapter.Aeson.AesonVia</span></span><span>
+</span><span id="line-10"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Common.Range</span></span><span>
+</span><span id="line-11"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.UUID</span></span><span>
+</span><span id="line-12"></span><span>
+</span><span id="line-13"></span><span id="local-6989586621679408434"><span id="local-6989586621679408435"></span></span><span class="hs-keyword">data</span><span> </span><span id="ClientEventBlock"><span class="annot"><a href="Dolla.Consensus.Dummy.Client.Block.html#ClientEventBlock"><span class="hs-identifier hs-var">ClientEventBlock</span></a></span></span><span>
+</span><span id="line-14"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span id="ClientEventBlock"><span class="annot"><a href="Dolla.Consensus.Dummy.Client.Block.html#ClientEventBlock"><span class="hs-identifier hs-var">ClientEventBlock</span></a></span></span><span>
+</span><span id="line-15"></span><span>    </span><span class="hs-special">{</span><span> </span><span id="%24sel%3AeventRange%3AClientEventBlock"><span class="annot"><span class="annottext">ClientEventBlock -&gt; OffsetRange
+</span><a href="Dolla.Consensus.Dummy.Client.Block.html#%24sel%3AeventRange%3AClientEventBlock"><span class="hs-identifier hs-var hs-var">eventRange</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">OffsetRange</span></span><span>
+</span><span id="line-16"></span><span>    </span><span class="hs-special">,</span><span> </span><span id="%24sel%3AeventsHash%3AClientEventBlock"><span class="annot"><span class="annottext">ClientEventBlock -&gt; UUID
+</span><a href="Dolla.Consensus.Dummy.Client.Block.html#%24sel%3AeventsHash%3AClientEventBlock"><span class="hs-identifier hs-var hs-var">eventsHash</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">UUID</span></span><span class="hs-special">}</span><span>
+</span><span id="line-17"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679408427"><span id="local-6989586621679408429"><span class="annot"><span class="annottext">ClientEventBlock -&gt; ClientEventBlock -&gt; Bool
+(ClientEventBlock -&gt; ClientEventBlock -&gt; Bool)
+-&gt; (ClientEventBlock -&gt; ClientEventBlock -&gt; Bool)
+-&gt; Eq ClientEventBlock
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+/= :: ClientEventBlock -&gt; ClientEventBlock -&gt; Bool
+$c/= :: ClientEventBlock -&gt; ClientEventBlock -&gt; Bool
+== :: ClientEventBlock -&gt; ClientEventBlock -&gt; Bool
+$c== :: ClientEventBlock -&gt; ClientEventBlock -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679408420"><span id="local-6989586621679408422"><span id="local-6989586621679408424"><span class="annot"><span class="annottext">Int -&gt; ClientEventBlock -&gt; ShowS
+[ClientEventBlock] -&gt; ShowS
+ClientEventBlock -&gt; String
+(Int -&gt; ClientEventBlock -&gt; ShowS)
+-&gt; (ClientEventBlock -&gt; String)
+-&gt; ([ClientEventBlock] -&gt; ShowS)
+-&gt; Show ClientEventBlock
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [ClientEventBlock] -&gt; ShowS
+$cshowList :: [ClientEventBlock] -&gt; ShowS
+show :: ClientEventBlock -&gt; String
+$cshow :: ClientEventBlock -&gt; String
+showsPrec :: Int -&gt; ClientEventBlock -&gt; ShowS
+$cshowsPrec :: Int -&gt; ClientEventBlock -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">(forall x. ClientEventBlock -&gt; Rep ClientEventBlock x)
+-&gt; (forall x. Rep ClientEventBlock x -&gt; ClientEventBlock)
+-&gt; Generic ClientEventBlock
+forall x. Rep ClientEventBlock x -&gt; ClientEventBlock
+forall x. ClientEventBlock -&gt; Rep ClientEventBlock x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cto :: forall x. Rep ClientEventBlock x -&gt; ClientEventBlock
+$cfrom :: forall x. ClientEventBlock -&gt; Rep ClientEventBlock x
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">Generic</span></span><span class="hs-special">)</span><span>
+</span><span id="line-18"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679408408"><span id="local-6989586621679408410"><span id="local-6989586621679408412"><span id="local-6989586621679408414"><span class="annot"><span class="annottext">[ClientEventBlock] -&gt; Encoding
+[ClientEventBlock] -&gt; Value
+ClientEventBlock -&gt; Encoding
+ClientEventBlock -&gt; Value
+(ClientEventBlock -&gt; Value)
+-&gt; (ClientEventBlock -&gt; Encoding)
+-&gt; ([ClientEventBlock] -&gt; Value)
+-&gt; ([ClientEventBlock] -&gt; Encoding)
+-&gt; ToJSON ClientEventBlock
+forall a.
+(a -&gt; Value)
+-&gt; (a -&gt; Encoding)
+-&gt; ([a] -&gt; Value)
+-&gt; ([a] -&gt; Encoding)
+-&gt; ToJSON a
+toEncodingList :: [ClientEventBlock] -&gt; Encoding
+$ctoEncodingList :: [ClientEventBlock] -&gt; Encoding
+toJSONList :: [ClientEventBlock] -&gt; Value
+$ctoJSONList :: [ClientEventBlock] -&gt; Value
+toEncoding :: ClientEventBlock -&gt; Encoding
+$ctoEncoding :: ClientEventBlock -&gt; Encoding
+toJSON :: ClientEventBlock -&gt; Value
+$ctoJSON :: ClientEventBlock -&gt; Value
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">ToJSON</span></span></span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679408403"><span id="local-6989586621679408405"><span class="annot"><span class="annottext">Value -&gt; Parser [ClientEventBlock]
+Value -&gt; Parser ClientEventBlock
+(Value -&gt; Parser ClientEventBlock)
+-&gt; (Value -&gt; Parser [ClientEventBlock])
+-&gt; FromJSON ClientEventBlock
+forall a.
+(Value -&gt; Parser a) -&gt; (Value -&gt; Parser [a]) -&gt; FromJSON a
+parseJSONList :: Value -&gt; Parser [ClientEventBlock]
+$cparseJSONList :: Value -&gt; Parser [ClientEventBlock]
+parseJSON :: Value -&gt; Parser ClientEventBlock
+$cparseJSON :: Value -&gt; Parser ClientEventBlock
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">FromJSON</span></span></span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">via</span><span> </span><span class="annot"><span class="hs-identifier hs-type">DefaultJSON</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Dummy.Client.Block.html#ClientEventBlock"><span class="hs-identifier hs-type">ClientEventBlock</span></a></span></pre></body></html>

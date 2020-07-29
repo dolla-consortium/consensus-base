@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE OverloadedStrings     #-}</span><span>
+</span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE DerivingVia #-}</span><span>
+</span><span id="line-3"></span><span class="hs-pragma">{-# LANGUAGE FlexibleContexts #-}</span><span>
+</span><span id="line-4"></span><span class="hs-pragma">{-# LANGUAGE UndecidableInstances #-}</span><span>
+</span><span id="line-5"></span><span class="hs-pragma">{-# LANGUAGE DuplicateRecordFields #-}</span><span>
+</span><span id="line-6"></span><span class="hs-pragma">{-# LANGUAGE DeriveGeneric #-}</span><span>
+</span><span id="line-7"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Dolla.Consensus.Dummy.Client.Request</span><span> </span><span>
+</span><span id="line-8"></span><span>  </span><span class="hs-special">(</span><span class="annot"><a href="Dolla.Consensus.Dummy.Client.Request.html#ClientRequest"><span class="hs-identifier">ClientRequest</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-9"></span><span>
+</span><span id="line-10"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span> </span><span class="hs-keyword">hiding</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">id</span></span><span class="hs-special">)</span><span>
+</span><span id="line-11"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Aeson</span></span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">GHC.Generics</span></span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Adapter.Aeson.AesonVia</span></span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.UUID</span></span><span>
+</span><span id="line-15"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Libraries.LogEngine.Appendable</span></span><span>
+</span><span id="line-16"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Hashable</span></span><span>
+</span><span id="line-17"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Common.UUID.Provider</span></span><span>
+</span><span id="line-18"></span><span>
+</span><span id="line-19"></span><span>
+</span><span id="line-20"></span><span class="hs-keyword">type</span><span> </span><span id="Address"><span class="annot"><a href="Dolla.Consensus.Dummy.Client.Request.html#Address"><span class="hs-identifier hs-var">Address</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">UUID</span></span><span>
+</span><span id="line-21"></span><span>
+</span><span id="line-22"></span><span id="local-6989586621679408570"><span id="local-6989586621679408571"></span></span><span class="hs-keyword">data</span><span> </span><span id="ClientRequest"><span class="annot"><a href="Dolla.Consensus.Dummy.Client.Request.html#ClientRequest"><span class="hs-identifier hs-var">ClientRequest</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="SpendMoney"><span class="annot"><a href="Dolla.Consensus.Dummy.Client.Request.html#SpendMoney"><span class="hs-identifier hs-var">SpendMoney</span></a></span></span><span> </span><span class="hs-special">{</span><span>
+</span><span id="line-23"></span><span>                          </span><span id="%24sel%3AcommandId%3ASpendMoney"><span class="annot"><span class="annottext">ClientRequest -&gt; UUID
+</span><a href="Dolla.Consensus.Dummy.Client.Request.html#%24sel%3AcommandId%3ASpendMoney"><span class="hs-identifier hs-var hs-var">commandId</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">UUID</span></span><span class="hs-special">,</span><span>
+</span><span id="line-24"></span><span>                          </span><span id="%24sel%3Asource%3ASpendMoney"><span class="annot"><span class="annottext">ClientRequest -&gt; UUID
+</span><a href="Dolla.Consensus.Dummy.Client.Request.html#%24sel%3Asource%3ASpendMoney"><span class="hs-identifier hs-var hs-var">source</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Dolla.Consensus.Dummy.Client.Request.html#Address"><span class="hs-identifier hs-type">Address</span></a></span><span class="hs-special">,</span><span>
+</span><span id="line-25"></span><span>                          </span><span id="%24sel%3Adestination%3ASpendMoney"><span class="annot"><span class="annottext">ClientRequest -&gt; UUID
+</span><a href="Dolla.Consensus.Dummy.Client.Request.html#%24sel%3Adestination%3ASpendMoney"><span class="hs-identifier hs-var hs-var">destination</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Dolla.Consensus.Dummy.Client.Request.html#Address"><span class="hs-identifier hs-type">Address</span></a></span><span class="hs-special">,</span><span>
+</span><span id="line-26"></span><span>                          </span><span id="%24sel%3Aamount%3ASpendMoney"><span class="annot"><span class="annottext">ClientRequest -&gt; Integer
+</span><a href="Dolla.Consensus.Dummy.Client.Request.html#%24sel%3Aamount%3ASpendMoney"><span class="hs-identifier hs-var hs-var">amount</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Integer</span></span><span> </span><span class="hs-special">}</span><span>
+</span><span id="line-27"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679408561"><span id="local-6989586621679408563"><span class="annot"><span class="annottext">ClientRequest -&gt; ClientRequest -&gt; Bool
+(ClientRequest -&gt; ClientRequest -&gt; Bool)
+-&gt; (ClientRequest -&gt; ClientRequest -&gt; Bool) -&gt; Eq ClientRequest
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+/= :: ClientRequest -&gt; ClientRequest -&gt; Bool
+$c/= :: ClientRequest -&gt; ClientRequest -&gt; Bool
+== :: ClientRequest -&gt; ClientRequest -&gt; Bool
+$c== :: ClientRequest -&gt; ClientRequest -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679408554"><span id="local-6989586621679408556"><span id="local-6989586621679408558"><span class="annot"><span class="annottext">Int -&gt; ClientRequest -&gt; ShowS
+[ClientRequest] -&gt; ShowS
+ClientRequest -&gt; String
+(Int -&gt; ClientRequest -&gt; ShowS)
+-&gt; (ClientRequest -&gt; String)
+-&gt; ([ClientRequest] -&gt; ShowS)
+-&gt; Show ClientRequest
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [ClientRequest] -&gt; ShowS
+$cshowList :: [ClientRequest] -&gt; ShowS
+show :: ClientRequest -&gt; String
+$cshow :: ClientRequest -&gt; String
+showsPrec :: Int -&gt; ClientRequest -&gt; ShowS
+$cshowsPrec :: Int -&gt; ClientRequest -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">(forall x. ClientRequest -&gt; Rep ClientRequest x)
+-&gt; (forall x. Rep ClientRequest x -&gt; ClientRequest)
+-&gt; Generic ClientRequest
+forall x. Rep ClientRequest x -&gt; ClientRequest
+forall x. ClientRequest -&gt; Rep ClientRequest x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cto :: forall x. Rep ClientRequest x -&gt; ClientRequest
+$cfrom :: forall x. ClientRequest -&gt; Rep ClientRequest x
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">Generic</span></span><span class="hs-special">)</span><span>
+</span><span id="line-28"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679408542"><span id="local-6989586621679408544"><span id="local-6989586621679408546"><span id="local-6989586621679408548"><span class="annot"><span class="annottext">[ClientRequest] -&gt; Encoding
+[ClientRequest] -&gt; Value
+ClientRequest -&gt; Encoding
+ClientRequest -&gt; Value
+(ClientRequest -&gt; Value)
+-&gt; (ClientRequest -&gt; Encoding)
+-&gt; ([ClientRequest] -&gt; Value)
+-&gt; ([ClientRequest] -&gt; Encoding)
+-&gt; ToJSON ClientRequest
+forall a.
+(a -&gt; Value)
+-&gt; (a -&gt; Encoding)
+-&gt; ([a] -&gt; Value)
+-&gt; ([a] -&gt; Encoding)
+-&gt; ToJSON a
+toEncodingList :: [ClientRequest] -&gt; Encoding
+$ctoEncodingList :: [ClientRequest] -&gt; Encoding
+toJSONList :: [ClientRequest] -&gt; Value
+$ctoJSONList :: [ClientRequest] -&gt; Value
+toEncoding :: ClientRequest -&gt; Encoding
+$ctoEncoding :: ClientRequest -&gt; Encoding
+toJSON :: ClientRequest -&gt; Value
+$ctoJSON :: ClientRequest -&gt; Value
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">ToJSON</span></span></span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679408537"><span id="local-6989586621679408539"><span class="annot"><span class="annottext">Value -&gt; Parser [ClientRequest]
+Value -&gt; Parser ClientRequest
+(Value -&gt; Parser ClientRequest)
+-&gt; (Value -&gt; Parser [ClientRequest]) -&gt; FromJSON ClientRequest
+forall a.
+(Value -&gt; Parser a) -&gt; (Value -&gt; Parser [a]) -&gt; FromJSON a
+parseJSONList :: Value -&gt; Parser [ClientRequest]
+$cparseJSONList :: Value -&gt; Parser [ClientRequest]
+parseJSON :: Value -&gt; Parser ClientRequest
+$cparseJSON :: Value -&gt; Parser ClientRequest
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">FromJSON</span></span></span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">via</span><span> </span><span class="annot"><span class="hs-identifier hs-type">DefaultJSON</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Dummy.Client.Request.html#ClientRequest"><span class="hs-identifier hs-type">ClientRequest</span></a></span><span>
+</span><span id="line-29"></span><span>
+</span><span id="line-30"></span><span class="hs-keyword">instance</span><span>  </span><span id="local-6989586621679408531"><span id="local-6989586621679408533"><span class="annot"><span class="hs-identifier hs-type">Hashable</span></span><span>  </span><span class="annot"><a href="Dolla.Consensus.Dummy.Client.Request.html#ClientRequest"><span class="hs-identifier hs-type">ClientRequest</span></a></span></span></span><span>
+</span><span id="line-31"></span><span>
+</span><span id="line-32"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Appendable</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Dummy.Client.Request.html#ClientRequest"><span class="hs-identifier hs-type">ClientRequest</span></a></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-33"></span><span>  </span><span id="local-6989586621679408526"><span class="annot"><span class="annottext">getItemName :: ClientRequest -&gt; String
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">getItemName</span></span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Dummy.Client.Request.html#SpendMoney"><span class="hs-identifier hs-type">SpendMoney</span></a></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-string">&quot;SpendMoney&quot;</span></span><span>
+</span><span id="line-34"></span><span>
+</span><span id="line-35"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">UUIDProvider</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Dummy.Client.Request.html#ClientRequest"><span class="hs-identifier hs-type">ClientRequest</span></a></span><span> </span><span class="hs-keyword">where</span><span> </span><span>
+</span><span id="line-36"></span><span>  </span><span id="local-6989586621679408522"><span class="annot"><span class="annottext">getUUID :: ClientRequest -&gt; UUID
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">getUUID</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ClientRequest -&gt; UUID
+</span><a href="Dolla.Consensus.Dummy.Client.Request.html#%24sel%3AcommandId%3ASpendMoney"><span class="hs-identifier hs-var hs-var">commandId</span></a></span><span>
+</span><span id="line-37"></span></pre></body></html>

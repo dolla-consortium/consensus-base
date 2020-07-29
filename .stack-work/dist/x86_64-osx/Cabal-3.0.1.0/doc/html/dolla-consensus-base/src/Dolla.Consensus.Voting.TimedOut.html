@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DerivingVia #-}</span><span>
+</span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE FlexibleContexts #-}</span><span>
+</span><span id="line-3"></span><span class="hs-pragma">{-# LANGUAGE UndecidableInstances #-}</span><span>
+</span><span id="line-4"></span><span class="hs-pragma">{-# LANGUAGE DuplicateRecordFields #-}</span><span>
+</span><span id="line-5"></span><span class="hs-pragma">{-# LANGUAGE DeriveGeneric #-}</span><span>
+</span><span id="line-6"></span><span>
+</span><span id="line-7"></span><span class="hs-pragma">{-# OPTIONS_GHC -fno-warn-partial-fields #-}</span><span>
+</span><span id="line-8"></span><span>
+</span><span id="line-9"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Dolla.Consensus.Voting.TimedOut</span><span>
+</span><span id="line-10"></span><span>  </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Dolla.Consensus.Voting.TimedOut.html#TimedOut"><span class="hs-identifier">TimedOut</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-11"></span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Aeson</span></span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">GHC.Generics</span></span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Adapter.Aeson.AesonVia</span></span><span>
+</span><span id="line-15"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Libraries.LogEngine.Appendable</span></span><span>
+</span><span id="line-16"></span><span>
+</span><span id="line-17"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html"><span class="hs-identifier">Dolla.Consensus.Log.Aggregation</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByVotingRound"><span class="hs-identifier">ByVotingRound</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-18"></span><span>
+</span><span id="line-19"></span><span id="local-6989586621679409962"><span id="local-6989586621679409963"></span></span><span class="hs-keyword">data</span><span> </span><span id="TimedOut"><span class="annot"><a href="Dolla.Consensus.Voting.TimedOut.html#TimedOut"><span class="hs-identifier hs-var">TimedOut</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-20"></span><span>        </span><span id="CoordinatorPropositionPropagationWaitTimedOut"><span class="annot"><a href="Dolla.Consensus.Voting.TimedOut.html#CoordinatorPropositionPropagationWaitTimedOut"><span class="hs-identifier hs-var">CoordinatorPropositionPropagationWaitTimedOut</span></a></span></span><span> </span><span class="hs-special">{</span><span id="%24sel%3AbyVotingRound%3ACoordinatorPropositionPropagationWaitTimedOut"><span class="annot"><span class="annottext">TimedOut -&gt; ByVotingRound
+</span><a href="Dolla.Consensus.Voting.TimedOut.html#%24sel%3AbyVotingRound%3ACoordinatorPropositionPropagationWaitTimedOut"><span class="hs-identifier hs-var hs-var">byVotingRound</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByVotingRound"><span class="hs-identifier hs-type">ByVotingRound</span></a></span><span class="hs-special">}</span><span>
+</span><span id="line-21"></span><span>      </span><span class="hs-glyph">|</span><span> </span><span id="AuxiliaryMessagePropagationWaitTimedOut"><span class="annot"><a href="Dolla.Consensus.Voting.TimedOut.html#AuxiliaryMessagePropagationWaitTimedOut"><span class="hs-identifier hs-var">AuxiliaryMessagePropagationWaitTimedOut</span></a></span></span><span> </span><span class="hs-special">{</span><span id="%24sel%3AbyVotingRound%3ACoordinatorPropositionPropagationWaitTimedOut"><span class="annot"><a href="Dolla.Consensus.Voting.TimedOut.html#%24sel%3AbyVotingRound%3ACoordinatorPropositionPropagationWaitTimedOut"><span class="hs-identifier hs-var">byVotingRound</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Dolla.Consensus.Log.Aggregation.html#ByVotingRound"><span class="hs-identifier hs-type">ByVotingRound</span></a></span><span class="hs-special">}</span><span>
+</span><span id="line-22"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679409955"><span id="local-6989586621679409957"><span class="annot"><span class="annottext">TimedOut -&gt; TimedOut -&gt; Bool
+(TimedOut -&gt; TimedOut -&gt; Bool)
+-&gt; (TimedOut -&gt; TimedOut -&gt; Bool) -&gt; Eq TimedOut
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+/= :: TimedOut -&gt; TimedOut -&gt; Bool
+$c/= :: TimedOut -&gt; TimedOut -&gt; Bool
+== :: TimedOut -&gt; TimedOut -&gt; Bool
+$c== :: TimedOut -&gt; TimedOut -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679409948"><span id="local-6989586621679409950"><span id="local-6989586621679409952"><span class="annot"><span class="annottext">Int -&gt; TimedOut -&gt; ShowS
+[TimedOut] -&gt; ShowS
+TimedOut -&gt; String
+(Int -&gt; TimedOut -&gt; ShowS)
+-&gt; (TimedOut -&gt; String) -&gt; ([TimedOut] -&gt; ShowS) -&gt; Show TimedOut
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [TimedOut] -&gt; ShowS
+$cshowList :: [TimedOut] -&gt; ShowS
+show :: TimedOut -&gt; String
+$cshow :: TimedOut -&gt; String
+showsPrec :: Int -&gt; TimedOut -&gt; ShowS
+$cshowsPrec :: Int -&gt; TimedOut -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">(forall x. TimedOut -&gt; Rep TimedOut x)
+-&gt; (forall x. Rep TimedOut x -&gt; TimedOut) -&gt; Generic TimedOut
+forall x. Rep TimedOut x -&gt; TimedOut
+forall x. TimedOut -&gt; Rep TimedOut x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cto :: forall x. Rep TimedOut x -&gt; TimedOut
+$cfrom :: forall x. TimedOut -&gt; Rep TimedOut x
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">Generic</span></span><span class="hs-special">)</span><span>
+</span><span id="line-23"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679409936"><span id="local-6989586621679409938"><span id="local-6989586621679409940"><span id="local-6989586621679409942"><span class="annot"><span class="annottext">[TimedOut] -&gt; Encoding
+[TimedOut] -&gt; Value
+TimedOut -&gt; Encoding
+TimedOut -&gt; Value
+(TimedOut -&gt; Value)
+-&gt; (TimedOut -&gt; Encoding)
+-&gt; ([TimedOut] -&gt; Value)
+-&gt; ([TimedOut] -&gt; Encoding)
+-&gt; ToJSON TimedOut
+forall a.
+(a -&gt; Value)
+-&gt; (a -&gt; Encoding)
+-&gt; ([a] -&gt; Value)
+-&gt; ([a] -&gt; Encoding)
+-&gt; ToJSON a
+toEncodingList :: [TimedOut] -&gt; Encoding
+$ctoEncodingList :: [TimedOut] -&gt; Encoding
+toJSONList :: [TimedOut] -&gt; Value
+$ctoJSONList :: [TimedOut] -&gt; Value
+toEncoding :: TimedOut -&gt; Encoding
+$ctoEncoding :: TimedOut -&gt; Encoding
+toJSON :: TimedOut -&gt; Value
+$ctoJSON :: TimedOut -&gt; Value
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">ToJSON</span></span></span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679409931"><span id="local-6989586621679409933"><span class="annot"><span class="annottext">Value -&gt; Parser [TimedOut]
+Value -&gt; Parser TimedOut
+(Value -&gt; Parser TimedOut)
+-&gt; (Value -&gt; Parser [TimedOut]) -&gt; FromJSON TimedOut
+forall a.
+(Value -&gt; Parser a) -&gt; (Value -&gt; Parser [a]) -&gt; FromJSON a
+parseJSONList :: Value -&gt; Parser [TimedOut]
+$cparseJSONList :: Value -&gt; Parser [TimedOut]
+parseJSON :: Value -&gt; Parser TimedOut
+$cparseJSON :: Value -&gt; Parser TimedOut
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">FromJSON</span></span></span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">via</span><span> </span><span class="annot"><span class="hs-identifier hs-type">DefaultJSON</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Voting.TimedOut.html#TimedOut"><span class="hs-identifier hs-type">TimedOut</span></a></span><span>
+</span><span id="line-24"></span><span>
+</span><span id="line-25"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Appendable</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Voting.TimedOut.html#TimedOut"><span class="hs-identifier hs-type">TimedOut</span></a></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-26"></span><span>  </span><span id="local-6989586621679409925"><span class="annot"><span class="annottext">getItemName :: TimedOut -&gt; String
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">getItemName</span></span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Voting.TimedOut.html#CoordinatorPropositionPropagationWaitTimedOut"><span class="hs-identifier hs-type">CoordinatorPropositionPropagationWaitTimedOut</span></a></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-string">&quot;CoordinatorPropositionPropagationWaitTimedOut&quot;</span></span><span>
+</span><span id="line-27"></span><span>  </span><span class="annot"><span class="hs-identifier hs-var">getItemName</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Voting.TimedOut.html#AuxiliaryMessagePropagationWaitTimedOut"><span class="hs-identifier hs-type">AuxiliaryMessagePropagationWaitTimedOut</span></a></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-string">&quot;AuxiliaryMessagePropagationWaitTimedOut&quot;</span></span><span>
+</span><span id="line-28"></span></pre></body></html>

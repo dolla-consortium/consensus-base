@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DerivingVia #-}</span><span>
+</span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE FlexibleContexts #-}</span><span>
+</span><span id="line-3"></span><span class="hs-pragma">{-# LANGUAGE UndecidableInstances #-}</span><span>
+</span><span id="line-4"></span><span class="hs-pragma">{-# LANGUAGE DuplicateRecordFields #-}</span><span>
+</span><span id="line-5"></span><span class="hs-pragma">{-# LANGUAGE DeriveGeneric #-}</span><span>
+</span><span id="line-6"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Dolla.Consensus.Proposal.ProposalId</span><span>
+</span><span id="line-7"></span><span>  </span><span class="hs-special">(</span><span class="annot"><a href="Dolla.Consensus.Proposal.ProposalId.html#ProposalId"><span class="hs-identifier">ProposalId</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-8"></span><span>
+</span><span id="line-9"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Aeson</span></span><span>
+</span><span id="line-10"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">GHC.Generics</span></span><span>
+</span><span id="line-11"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Adapter.Aeson.AesonVia</span></span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Common.Offset</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Offset</span></span><span class="hs-special">)</span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Dolla.Common.NodeId</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">ProposerId</span></span><span class="hs-special">)</span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Hashable</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Hashable</span></span><span class="hs-special">)</span><span>
+</span><span id="line-15"></span><span>
+</span><span id="line-16"></span><span id="local-6989586621679408852"><span id="local-6989586621679408853"></span></span><span class="hs-keyword">data</span><span> </span><span id="ProposalId"><span class="annot"><a href="Dolla.Consensus.Proposal.ProposalId.html#ProposalId"><span class="hs-identifier hs-var">ProposalId</span></a></span></span><span>
+</span><span id="line-17"></span><span>  </span><span class="hs-glyph">=</span><span>  </span><span id="ProposalId"><span class="annot"><a href="Dolla.Consensus.Proposal.ProposalId.html#ProposalId"><span class="hs-identifier hs-var">ProposalId</span></a></span></span><span>
+</span><span id="line-18"></span><span>     </span><span class="hs-special">{</span><span> </span><span id="%24sel%3AblockOffset%3AProposalId"><span class="annot"><span class="annottext">ProposalId -&gt; Offset
+</span><a href="Dolla.Consensus.Proposal.ProposalId.html#%24sel%3AblockOffset%3AProposalId"><span class="hs-identifier hs-var hs-var">blockOffset</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Offset</span></span><span>
+</span><span id="line-19"></span><span>     </span><span class="hs-special">,</span><span> </span><span id="%24sel%3AlocalBlockOffset%3AProposalId"><span class="annot"><span class="annottext">ProposalId -&gt; Offset
+</span><a href="Dolla.Consensus.Proposal.ProposalId.html#%24sel%3AlocalBlockOffset%3AProposalId"><span class="hs-identifier hs-var hs-var">localBlockOffset</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Offset</span></span><span>
+</span><span id="line-20"></span><span>     </span><span class="hs-special">,</span><span> </span><span id="%24sel%3AproposerId%3AProposalId"><span class="annot"><span class="annottext">ProposalId -&gt; ProposerId
+</span><a href="Dolla.Consensus.Proposal.ProposalId.html#%24sel%3AproposerId%3AProposalId"><span class="hs-identifier hs-var hs-var">proposerId</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ProposerId</span></span><span class="hs-special">}</span><span>
+</span><span id="line-21"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679408844"><span id="local-6989586621679408846"><span class="annot"><span class="annottext">ProposalId -&gt; ProposalId -&gt; Bool
+(ProposalId -&gt; ProposalId -&gt; Bool)
+-&gt; (ProposalId -&gt; ProposalId -&gt; Bool) -&gt; Eq ProposalId
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+/= :: ProposalId -&gt; ProposalId -&gt; Bool
+$c/= :: ProposalId -&gt; ProposalId -&gt; Bool
+== :: ProposalId -&gt; ProposalId -&gt; Bool
+$c== :: ProposalId -&gt; ProposalId -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679408837"><span id="local-6989586621679408839"><span id="local-6989586621679408841"><span class="annot"><span class="annottext">Int -&gt; ProposalId -&gt; ShowS
+[ProposalId] -&gt; ShowS
+ProposalId -&gt; String
+(Int -&gt; ProposalId -&gt; ShowS)
+-&gt; (ProposalId -&gt; String)
+-&gt; ([ProposalId] -&gt; ShowS)
+-&gt; Show ProposalId
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [ProposalId] -&gt; ShowS
+$cshowList :: [ProposalId] -&gt; ShowS
+show :: ProposalId -&gt; String
+$cshow :: ProposalId -&gt; String
+showsPrec :: Int -&gt; ProposalId -&gt; ShowS
+$cshowsPrec :: Int -&gt; ProposalId -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">(forall x. ProposalId -&gt; Rep ProposalId x)
+-&gt; (forall x. Rep ProposalId x -&gt; ProposalId) -&gt; Generic ProposalId
+forall x. Rep ProposalId x -&gt; ProposalId
+forall x. ProposalId -&gt; Rep ProposalId x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cto :: forall x. Rep ProposalId x -&gt; ProposalId
+$cfrom :: forall x. ProposalId -&gt; Rep ProposalId x
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">Generic</span></span><span class="hs-special">)</span><span>
+</span><span id="line-22"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679408825"><span id="local-6989586621679408827"><span id="local-6989586621679408829"><span id="local-6989586621679408831"><span class="annot"><span class="annottext">[ProposalId] -&gt; Encoding
+[ProposalId] -&gt; Value
+ProposalId -&gt; Encoding
+ProposalId -&gt; Value
+(ProposalId -&gt; Value)
+-&gt; (ProposalId -&gt; Encoding)
+-&gt; ([ProposalId] -&gt; Value)
+-&gt; ([ProposalId] -&gt; Encoding)
+-&gt; ToJSON ProposalId
+forall a.
+(a -&gt; Value)
+-&gt; (a -&gt; Encoding)
+-&gt; ([a] -&gt; Value)
+-&gt; ([a] -&gt; Encoding)
+-&gt; ToJSON a
+toEncodingList :: [ProposalId] -&gt; Encoding
+$ctoEncodingList :: [ProposalId] -&gt; Encoding
+toJSONList :: [ProposalId] -&gt; Value
+$ctoJSONList :: [ProposalId] -&gt; Value
+toEncoding :: ProposalId -&gt; Encoding
+$ctoEncoding :: ProposalId -&gt; Encoding
+toJSON :: ProposalId -&gt; Value
+$ctoJSON :: ProposalId -&gt; Value
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">ToJSON</span></span></span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679408820"><span id="local-6989586621679408822"><span class="annot"><span class="annottext">Value -&gt; Parser [ProposalId]
+Value -&gt; Parser ProposalId
+(Value -&gt; Parser ProposalId)
+-&gt; (Value -&gt; Parser [ProposalId]) -&gt; FromJSON ProposalId
+forall a.
+(Value -&gt; Parser a) -&gt; (Value -&gt; Parser [a]) -&gt; FromJSON a
+parseJSONList :: Value -&gt; Parser [ProposalId]
+$cparseJSONList :: Value -&gt; Parser [ProposalId]
+parseJSON :: Value -&gt; Parser ProposalId
+$cparseJSON :: Value -&gt; Parser ProposalId
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">FromJSON</span></span></span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">via</span><span> </span><span class="annot"><span class="hs-identifier hs-type">DefaultJSON</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Proposal.ProposalId.html#ProposalId"><span class="hs-identifier hs-type">ProposalId</span></a></span><span>
+</span><span id="line-23"></span><span>
+</span><span id="line-24"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679408814"><span id="local-6989586621679408816"><span class="annot"><span class="hs-identifier hs-type">Hashable</span></span><span> </span><span class="annot"><a href="Dolla.Consensus.Proposal.ProposalId.html#ProposalId"><span class="hs-identifier hs-type">ProposalId</span></a></span></span></span></pre></body></html>

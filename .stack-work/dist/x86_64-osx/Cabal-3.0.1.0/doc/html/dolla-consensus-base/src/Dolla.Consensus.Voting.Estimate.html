@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DerivingVia, DeriveGeneric, FlexibleContexts,
+  UndecidableInstances, StandaloneDeriving #-}</span><span>
+</span><span id="line-3"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Dolla.Consensus.Voting.Estimate</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Dolla.Consensus.Voting.Estimate.html#Estimate"><span class="hs-identifier">Estimate</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-4"></span><span>
+</span><span id="line-5"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">Data.Aeson</span></span><span>
+</span><span id="line-6"></span><span class="hs-keyword">import</span><span>           </span><span class="annot"><span class="hs-identifier">GHC.Generics</span></span><span>
+</span><span id="line-7"></span><span>
+</span><span id="line-8"></span><span class="hs-keyword">newtype</span><span> </span><span id="Estimate"><span class="annot"><a href="Dolla.Consensus.Voting.Estimate.html#Estimate"><span class="hs-identifier hs-var">Estimate</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Estimate"><span class="annot"><a href="Dolla.Consensus.Voting.Estimate.html#Estimate"><span class="hs-identifier hs-var">Estimate</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span> </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679409194"><span id="local-6989586621679409196"><span class="annot"><span class="annottext">Estimate -&gt; Estimate -&gt; Bool
+(Estimate -&gt; Estimate -&gt; Bool)
+-&gt; (Estimate -&gt; Estimate -&gt; Bool) -&gt; Eq Estimate
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+/= :: Estimate -&gt; Estimate -&gt; Bool
+$c/= :: Estimate -&gt; Estimate -&gt; Bool
+== :: Estimate -&gt; Estimate -&gt; Bool
+$c== :: Estimate -&gt; Estimate -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679409187"><span id="local-6989586621679409189"><span id="local-6989586621679409191"><span class="annot"><span class="annottext">Int -&gt; Estimate -&gt; ShowS
+[Estimate] -&gt; ShowS
+Estimate -&gt; String
+(Int -&gt; Estimate -&gt; ShowS)
+-&gt; (Estimate -&gt; String) -&gt; ([Estimate] -&gt; ShowS) -&gt; Show Estimate
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [Estimate] -&gt; ShowS
+$cshowList :: [Estimate] -&gt; ShowS
+show :: Estimate -&gt; String
+$cshow :: Estimate -&gt; String
+showsPrec :: Int -&gt; Estimate -&gt; ShowS
+$cshowsPrec :: Int -&gt; Estimate -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679409182"><span id="local-6989586621679409184"><span class="annot"><span class="annottext">Rep Estimate x -&gt; Estimate
+Estimate -&gt; Rep Estimate x
+(forall x. Estimate -&gt; Rep Estimate x)
+-&gt; (forall x. Rep Estimate x -&gt; Estimate) -&gt; Generic Estimate
+forall x. Rep Estimate x -&gt; Estimate
+forall x. Estimate -&gt; Rep Estimate x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+to :: Rep Estimate x -&gt; Estimate
+$cto :: forall x. Rep Estimate x -&gt; Estimate
+from :: Estimate -&gt; Rep Estimate x
+$cfrom :: forall x. Estimate -&gt; Rep Estimate x
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Generic</span></span></span></span><span> </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679409173"><span id="local-6989586621679409175"><span id="local-6989586621679409177"><span id="local-6989586621679409179"><span class="annot"><span class="annottext">[Estimate] -&gt; Encoding
+[Estimate] -&gt; Value
+Estimate -&gt; Encoding
+Estimate -&gt; Value
+(Estimate -&gt; Value)
+-&gt; (Estimate -&gt; Encoding)
+-&gt; ([Estimate] -&gt; Value)
+-&gt; ([Estimate] -&gt; Encoding)
+-&gt; ToJSON Estimate
+forall a.
+(a -&gt; Value)
+-&gt; (a -&gt; Encoding)
+-&gt; ([a] -&gt; Value)
+-&gt; ([a] -&gt; Encoding)
+-&gt; ToJSON a
+toEncodingList :: [Estimate] -&gt; Encoding
+$ctoEncodingList :: [Estimate] -&gt; Encoding
+toJSONList :: [Estimate] -&gt; Value
+$ctoJSONList :: [Estimate] -&gt; Value
+toEncoding :: Estimate -&gt; Encoding
+$ctoEncoding :: Estimate -&gt; Encoding
+toJSON :: Estimate -&gt; Value
+$ctoJSON :: Estimate -&gt; Value
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">ToJSON</span></span></span></span></span></span><span class="hs-special">,</span><span id="local-6989586621679409168"><span id="local-6989586621679409170"><span class="annot"><span class="annottext">Value -&gt; Parser [Estimate]
+Value -&gt; Parser Estimate
+(Value -&gt; Parser Estimate)
+-&gt; (Value -&gt; Parser [Estimate]) -&gt; FromJSON Estimate
+forall a.
+(Value -&gt; Parser a) -&gt; (Value -&gt; Parser [a]) -&gt; FromJSON a
+parseJSONList :: Value -&gt; Parser [Estimate]
+$cparseJSONList :: Value -&gt; Parser [Estimate]
+parseJSON :: Value -&gt; Parser Estimate
+$cparseJSON :: Value -&gt; Parser Estimate
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">FromJSON</span></span></span></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">via</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span></pre></body></html>
