@@ -9,6 +9,9 @@ module Dolla.Consensus.Proposal.Persistence
   , Location (..)
   , read
   , write
+  , getLocalProposalFolder
+  , getLocalProposalTemporaryFile
+  , transactLocalProposalCreation
   , moveLocalProposalIntoBroadcast
   , waitTillProposalDownloaded
   , waitTillLocalProposalProduced) where
@@ -32,6 +35,7 @@ import           Dolla.Common.NodeId
 import           Dolla.Consensus.Proposal.ProposalId
 import           Dolla.Consensus.Log.Aggregation
 import           Dolla.Common.Logging.Core
+import Dolla.Common.Offset (Offset)
 
 type  ProposalRootFolder = FilePath
 
@@ -75,7 +79,7 @@ moveLocalProposalIntoBroadcast proposalRootFolder proposalId
 
 
 getFolderPath :: Location -> ProposalId -> String
-getFolderPath (Local proposalRootFolder) _ =  proposalRootFolder ++ "/local/"
+getFolderPath (Local proposalRootFolder) _ =  getLocalProposalFolder proposalRootFolder
 getFolderPath (Broadcast proposalRootFolder) ProposalId {..} =  proposalRootFolder ++ "/broadcast/" ++ show blockOffset ++ "/"
 
 
@@ -83,6 +87,24 @@ getFilePath :: Location -> ProposalId -> String
 getFilePath local@ (Local _) proposalId@ProposalId {..} = getFolderPath local proposalId ++ show localBlockOffset ++ ".proposal"
 getFilePath broadcast@(Broadcast _) proposalId@ProposalId {..} =  getFolderPath broadcast proposalId ++ coerce proposerId ++ ".downloaded"
 
+getLocalProposalFolder :: ProposalRootFolder -> FilePath
+getLocalProposalFolder proposalRootFolder
+  = proposalRootFolder ++ "local/"
+
+getLocalProposalTemporaryFile :: ProposalRootFolder -> Offset -> FilePath
+getLocalProposalTemporaryFile proposalRootFolder blockOffset
+  = getLocalProposalFolder proposalRootFolder ++ show blockOffset ++ ".tmp"
+
+transactLocalProposalCreation
+  :: ( MonadIO m)
+  => ProposalRootFolder
+  -> Offset
+  -> m Offset
+transactLocalProposalCreation proposalRootFolder blockOffset = do
+  liftIO $ renameFile
+    (getLocalProposalTemporaryFile proposalRootFolder blockOffset)
+    (getLocalProposalFolder proposalRootFolder ++ show blockOffset ++ ".proposal")
+  return blockOffset
 
 waitTillProposalDownloaded
   :: ( MonadIO m, MonadCatch m)
@@ -122,7 +144,7 @@ waitTillLocalProposalProduced
 waitTillLocalProposalProduced logger proposalRootFolder ByBlockOffset {..}
   = catchAll
     (do
-     let currentBlockFolder = proposalRootFolder ++ "local/"
+     let currentBlockFolder = getLocalProposalFolder proposalRootFolder
          proposalProducedFilePath = currentBlockFolder ++ show blockOffset ++ ".proposal"
      proposalDownloadedFilePathExist <- liftIO $ doesFileExist proposalProducedFilePath
      unless
