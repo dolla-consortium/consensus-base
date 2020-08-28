@@ -43,7 +43,7 @@ data Location
     { statusServerUrl :: URL
     , downloadServerUrl :: URL
     , votingBroadcastUrl :: URL
-    , receptionistUrl :: URL
+    , receptioningUrl :: URL
     } deriving (Eq, Show)
 
 data ActiveNodeIds
