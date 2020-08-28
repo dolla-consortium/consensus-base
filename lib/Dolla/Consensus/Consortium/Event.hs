@@ -22,12 +22,12 @@ data Event = ConsortiumMembershipGranted { nodeId :: NodeId }
                                          , statusServerUrl :: URL
                                          , downloadServerUrl :: URL
                                          , votingBroadcastUrl :: URL
-                                         , receptionistUrl :: URL }
+                                         , receptioningUrl :: URL }
            | TeamReLocated               { nodeId :: NodeId
                                          , statusServerUrl :: URL
                                          , downloadServerUrl :: URL
                                          , votingBroadcastUrl :: URL
-                                         , receptionistUrl :: URL }
+                                         , receptioningUrl :: URL }
            | ProposalSizeLimited         { size :: Byte  }
            | BlockCreated                {blockOffset :: Offset }
   deriving (Eq,Show, Generic)
