@@ -6,7 +6,7 @@
 
 {-# OPTIONS_GHC -fno-warn-partial-fields #-}
 
-module Dolla.Team.Consensus.Maestro.Output (Output (..)) where
+module Dolla.Consensus.Maestro.Output (Output (..)) where
 
 import           Data.Aeson
 import           GHC.Generics
@@ -14,7 +14,6 @@ import           Dolla.Adapter.Aeson.AesonVia
 import           Dolla.Libraries.LogEngine.Appendable
 import           Dolla.Consensus.Log.Aggregation
 import           Dolla.Consensus.Voting.Vote
-
 
 data Output
   = ProposalAccepted                 { byProposer    :: ByProposer}

@@ -7,7 +7,7 @@
 module Dolla.Consensus.Proposal.Persistence
   ( ProposalRootFolder
   , Location (..)
-  , read
+  , readRaw
   , write
   , getLocalProposalFolder
   , getLocalProposalTemporaryFile
@@ -21,7 +21,6 @@ import           Prelude hiding (log,writeFile,readFile,read)
 import           Data.Function ((&))
 import           Data.ByteString.Lazy
 import           Data.Coerce (coerce)
-
 import           System.Directory
 
 import           Control.Monad.IO.Class
@@ -29,13 +28,15 @@ import           Control.Monad.Cont
 import           Control.Monad.Catch.Pure ( MonadCatch, catchAll)
 
 import           Streamly.FSNotify
+
 import qualified Streamly.Internal.Prelude as S
 
 import           Dolla.Common.NodeId
 import           Dolla.Consensus.Proposal.ProposalId
 import           Dolla.Consensus.Log.Aggregation
 import           Dolla.Common.Logging.Core
-import Dolla.Common.Offset (Offset)
+import           Dolla.Common.Offset (Offset)
+
 
 type  ProposalRootFolder = FilePath
 
@@ -43,12 +44,12 @@ data Location
   = Local ProposalRootFolder
   | Broadcast ProposalRootFolder
 
-read
+readRaw
   :: ( MonadIO m )
   => Location
   -> ProposalId
   -> m ByteString
-read location proposalId
+readRaw location proposalId
   = liftIO $ readFile (getFilePath location proposalId)
 
 write
