@@ -5,7 +5,7 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE DeriveGeneric #-}
 module Dolla.Consensus.Dummy.Client.Request 
-  (ClientRequest (..)) where
+  (DollaClientRequest (..)) where
 
 import           Prelude hiding (id)
 import           Data.Aeson
@@ -19,18 +19,18 @@ import           Dolla.Common.UUID.Provider
 
 type Address = UUID
 
-data ClientRequest = SpendMoney {
+data DollaClientRequest = SpendMoney {
                           commandId :: UUID,
                           source :: Address,
                           destination :: Address,
                           amount :: Integer }
   deriving (Eq,Show, Generic)
-  deriving (ToJSON,FromJSON) via DefaultJSON ClientRequest
+  deriving (ToJSON,FromJSON) via DefaultJSON DollaClientRequest
 
-instance  Hashable  ClientRequest
+instance  Hashable  DollaClientRequest
 
-instance Appendable ClientRequest where
+instance Appendable DollaClientRequest where
   getItemName SpendMoney {} = "SpendMoney"
 
-instance UUIDProvider ClientRequest where 
+instance UUIDProvider DollaClientRequest where
   getUUID = commandId
