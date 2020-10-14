@@ -16,9 +16,8 @@ import           Dolla.Consensus.Log.Aggregation
 
 
 data LogIndex
-    -- Proposal Proposer
-  = ProposerInputLog
-  | ProposerOutputLog
+    -- Proposing
+  = ProposingPackagingOutputLog
   -- Proposal Broadcast
   | PBSyncedProposalMessageLog          ByProposalBroadcaster
   | PBSyncedProposalMessageMergedLog    -- Todo : Make the aggregation byProposer instead of current at large
@@ -63,9 +62,8 @@ getStreamNameFromIndex :: LogIndex -> String
 getStreamNameFromIndex
  =
   \case
-    -- Proposal Proposer
-    ProposerInputLog                             -> [qc|proposer_input|]
-    ProposerOutputLog                            -> [qc|proposer_output|]
+    -- Proposing
+    ProposingPackagingOutputLog                  -> [qc|proposing_packaging_output|]
     -- Proposal Broadcast                        
     PBSyncedProposalMessageLog aggregation       -> [qc|proposal_broadcast_synced_message|] ++ applyByCategoryProjection  ++ toStreamName aggregation
     PBSyncedProposalMessageMergedLog             -> [qc|$ce-proposal_broadcast_synced_message|]
