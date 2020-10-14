@@ -4,7 +4,7 @@ cabal-version: 2.2
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c1f8a9d260218b6665fd39c4ce608e98b7a92305c1e01569454f72468826eb0e
+-- hash: a8d5123d2b206135ef6be344822fe54ea0134f8b69c10db990a83f88b6a06d42
 
 name:           dolla-consensus-base
 version:        1.0.0
@@ -80,7 +80,7 @@ library
   default-language: Haskell2010
   autogen-modules: Paths_dolla_consensus_base
 
-test-suite test
+test-suite dolla-consensus-base-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:

@@ -44,8 +44,9 @@ library:
     - exceptions == 0.10.4
     - binary == 0.8.7.0
     - streamly-fsnotify == 1.1.1.0
+
 tests:
-  test:
+  dolla-consensus-base-test:
     main:   Spec.hs
     source-dirs: test
 
