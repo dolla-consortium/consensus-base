@@ -37,6 +37,7 @@ library
       Dolla.Consensus.Log.Aggregation
       Dolla.Consensus.Log.EventStoreLog
       Dolla.Consensus.Log.LogNameIndex
+      Dolla.Consensus.Maestro.Output
       Dolla.Consensus.Proposal.Persistence
       Dolla.Consensus.Proposal.Proposal
       Dolla.Consensus.Proposal.ProposalId
@@ -49,7 +50,6 @@ library
       Dolla.Consensus.Voting.Round
       Dolla.Consensus.Voting.TimedOut
       Dolla.Consensus.Voting.Vote
-      Dolla.Team.Consensus.Maestro.Output
   other-modules:
       Paths_dolla_consensus_base
   hs-source-dirs:
