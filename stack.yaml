@@ -6,7 +6,7 @@ packages:
 extra-deps:
 
   - github: dolla-consortium/base
-    commit: 1053d9896e8d45bcb17b4f15b4dc789e60fa11f1
+    commit: 1104589c2bebe2f4f90e91c6807177680c559137
 
   - streamly-fsnotify-1.1.1.0@sha256:f46070f8ccf57fa85dab594c0a43b6f46a5db0d5c935e87d3e01bc70cebd3eef,1072
   - byline-0.3.2.1@sha256:7429f0aaa9efe2c7110c5882aca1310aaa11f1f552313e9a34188782228779ae,3637
