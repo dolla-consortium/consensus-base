@@ -1,8 +1,7 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE NamedFieldPuns #-}
 module Dolla.Consensus.Log.EventStoreLog
-  ( LogIndex (..)
-  , getEventStoreLog
+  ( getEventStoreLog
   ) where
 
 
@@ -13,8 +12,7 @@ import           Database.EventStore
 import           Dolla.Libraries.LogEngine.Instances.EventStore.Settings
 import           Dolla.Libraries.LogEngine.Instances.EventStore.EventStoreLog
 
-
-import Dolla.Consensus.Log.LogNameIndex
+import           Dolla.Consensus.Log.LogNameIndex
 
 getEventStoreLog
   :: Dependencies

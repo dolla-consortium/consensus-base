@@ -16,20 +16,26 @@ import           Dolla.Consensus.Log.Aggregation
 
 
 data LogIndex
-    -- Proposing
-  = ProposingPackagingOutputLog
+  -- Proposing Section
+  = -- Staging Pipeline
+    ProposingStagingInputLog
+  | ProposingStagingOutputLog
+  -- Starving Detection Pipeline
   | ProposingStarvingDetectionInputLog
-  -- Proposal Broadcast
+  | ProposingStarvingDetectionOutputLog
+  -- Receptioning Pipeline
+  | ProposingReceptioningOutputLog
+  -- Broadcasting Section
   | PBSyncedProposalMessageLog          ByProposalBroadcaster
-  | PBSyncedProposalMessageMergedLog    -- Todo : Make the aggregation byProposer instead of current at large
+  | PBSyncedProposalMessageMergedLog    
   | PBAlgorithmInput                    ByProposer
   | PBAlgorithmOutput                   ByProposer
   | PBAlgorithmOutputMergedLog
-  -- Maestro
+  -- Consensing Section
   | MaestroInputLog                      ByBlockOffset
   | MaestroOutputLog                     ByBlockOffset
   | MaestroOutputMergedLog
-  -- Orchestrator
+  -- Voting Section
   | OrchestratorLifeCycleSPInputLog      ByBlockOffset
   | OrchestratorPersistedInputLog        ByProposer
   | OrchestratorPersistedOutputLog       ByProposer
@@ -48,9 +54,6 @@ data LogIndex
   | TransactionOrderingInputLog          ByBlockOffset
   | TransactionMergingInputLog           ByBlockOffset
 
-  -- Requests
-  | LocalRequestLog
-
   -- Ledgers
   | ClientMergedRequestLog
   | ClientEventLog
@@ -63,20 +66,26 @@ getStreamNameFromIndex :: LogIndex -> String
 getStreamNameFromIndex
  =
   \case
-    -- Proposing
-    ProposingPackagingOutputLog                  -> [qc|proposing_packaging_output|]
+    -- Proposing Section
+    -- Receptioning Pipeline
+    ProposingReceptioningOutputLog               -> [qc|proposing_receptioning_output|]
+    -- Staging Pipeline
+    ProposingStagingInputLog                   -> [qc|proposing_staging_input|]
+    ProposingStagingOutputLog                  -> [qc|proposing_staging_output|]
+    -- Starving Detection Pipeline
     ProposingStarvingDetectionInputLog           -> [qc|proposing_starving_detection_input|]
-    -- Proposal Broadcast                        
+    ProposingStarvingDetectionOutputLog          -> [qc|proposing_starving_detection_output|]
+    -- Broadcasting Section                        
     PBSyncedProposalMessageLog aggregation       -> [qc|proposal_broadcast_synced_message|] ++ applyByCategoryProjection  ++ toStreamName aggregation
     PBSyncedProposalMessageMergedLog             -> [qc|$ce-proposal_broadcast_synced_message|]
     PBAlgorithmInput aggregation                 -> [qc|proposal_broadcast_algorithm_input_|] ++ toStreamName aggregation
     PBAlgorithmOutput aggregation                -> [qc|proposal_broadcast_algorithm_output|] ++ applyByCategoryProjection  ++ toStreamName aggregation
     PBAlgorithmOutputMergedLog                   -> [qc|$ce-proposal_broadcast_algorithm_output|]
-    -- Maestro                                   
+    -- Consensing Section                                   
     MaestroInputLog  aggregation                 -> [qc|maestro_input_|] ++ toStreamName aggregation
     MaestroOutputLog aggregation                 -> [qc|maestro_output|] ++ applyByCategoryProjection  ++ toStreamName aggregation
     MaestroOutputMergedLog                       -> [qc|$ce-maestro_output|]
-    -- Orchestrator                              
+    -- Voting Section                              
     OrchestratorLifeCycleSPInputLog aggregation  -> [qc|voting_orchestrator_lifecycle_|] ++ toStreamName aggregation
     OrchestratorPersistedInputLog aggregation    -> [qc|voting_orchestrator_input_|] ++ toStreamName aggregation
     OrchestratorPersistedOutputLog aggregation   -> [qc|voting_orchestrator_output|] ++ applyByCategoryProjection  ++ toStreamName aggregation
@@ -91,11 +100,10 @@ getStreamNameFromIndex
     BBAlgorithmInputLog aggregation              -> [qc|binary_broadcast_input_|] ++ toStreamName aggregation
     BBAlgorithmOutputLog aggregation             -> [qc|binary_broadcast_output|] ++ applyByCategoryProjection ++ toStreamName aggregation
     BBAlgorithmOutputMergedLog                   -> [qc|$ce-binary_broadcast_output|]
-    -- Transaction
+    -- Transacting
     TransactionOrderingInputLog  aggregation     -> [qc|transaction_ordering_input_|] ++ toStreamName aggregation
     TransactionMergingInputLog   aggregation     -> [qc|transaction_merging_input_|] ++ toStreamName aggregation
-    -- Requests
-    LocalRequestLog                              -> [qc|request|]
+    
     -- Ledgers
     ClientMergedRequestLog                       -> [qc|merged_client_request|]
     ClientEventLog                               -> [qc|client_event|]
